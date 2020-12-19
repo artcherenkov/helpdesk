@@ -6,7 +6,8 @@ import {toggleForm} from '../../store/action';
 
 const PageHeader = styled.header`
   height: 50px;
-  background-color: #325673;
+  background-color: #e7e7e7;
+  border: 1px solid #104673;
   display: flex;
   padding-left: 20px;
   align-items: center;
