@@ -1,31 +1,25 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 
 import Header from '../../components/header/header';
 import Table from '../../components/table/table';
 import AddForm from '../../components/add-form/add-form';
+import {getFormState} from '../../store/reducers/app-state/selectors';
 
-import {generateRequests} from '../../mock/request';
-const mockRequests = generateRequests(30);
-
-export default function Main() {
-  const [isFormShown, setFormShown] = useState(false);
-  const [requests, setRequests] = useState(mockRequests);
-
-  const handleAddBtnClick = () => {
-    setFormShown(!isFormShown);
-  };
-
-  const handleFormSubmit = (newRequest) => (evt) => {
-    evt.preventDefault();
-    setRequests([...requests, newRequest]);
-    setFormShown(!isFormShown);
-  }
-
+const Main = ({isFormShown, onSubmit}) => {
   return (
     <>
-      <Header handleAddBtnClick={handleAddBtnClick} />
-      <Table requests={requests} />
-      {isFormShown && <AddForm handleFormSubmit={handleFormSubmit}/>}
+      <Header />
+      <Table />
+      {isFormShown && <AddForm onSubmit={onSubmit}/>}
     </>
   );
 }
+
+const mapStateToProps = (state) => ({
+  isFormShown: getFormState(state)
+});
+
+export {Main};
+export default connect(mapStateToProps, null)(Main);
+

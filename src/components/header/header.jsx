@@ -1,9 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import {connect} from 'react-redux';
+
+import {toggleForm} from '../../store/action';
 
 const PageHeader = styled.header`
   height: 50px;
-  background-color: #325673;
+  background-color: #e7e7e7;
+  border: 1px solid #104673;
   display: flex;
   padding-left: 20px;
   align-items: center;
@@ -40,13 +44,23 @@ const Image = styled.img`
   height: 15px;
 `
 
-export default function Header({handleAddBtnClick}) {
+const Header = ({onAddBtnClick}) => {
   return (
     <PageHeader>
       <img src="img/logo.svg" alt="Логотип"/>
-      <Button onClick={handleAddBtnClick}>
+      <Button onClick={onAddBtnClick}>
         <Image src="img/icon-plus.svg" alt="Добавить"/> Создать
       </Button>
     </PageHeader>
   );
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  onAddBtnClick() {
+    dispatch(toggleForm())
+  }
+});
+
+export {Header};
+export default connect(null, mapDispatchToProps)(Header);
+

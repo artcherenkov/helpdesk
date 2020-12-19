@@ -1,8 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import Row from '../row/row';
+import {getRequests} from '../../store/reducers/app-store/selectors';
 
-export default function Table({requests}) {
+const Table = ({requests}) => {
   return (
     <section className="table-section">
       <div className="table__wrapper">
@@ -33,5 +35,12 @@ export default function Table({requests}) {
         </table>
       </div>
     </section>
-  )
-};
+  );
+}
+
+const mapStateToProps = (state) => ({
+  requests: getRequests(state)
+});
+
+export {Table};
+export default connect(mapStateToProps, null)(Table);
