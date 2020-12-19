@@ -1,25 +1,9 @@
 import moment from 'moment';
-import {getRandomDate, getRandomInt, getRandomArrayItem} from '../utils/common';
+import {getRandomDate, getRandomInt, getRandomArrayItem, getRandomObjectItem} from '../utils/common';
+import {IsExpired, Priority, Status} from '../const';
 
 const BEGINDATE = moment(`2015-01-01`);
 const ENDDATE = moment(`2022-01-01`);
-
-const request = {
-  id: `1`,
-  date: ``,
-  topic: ``,
-  client: ``,
-  type: ``,
-  product: ``,
-  department: ``,
-  responsible: ``,
-  status: ``,
-  dueDate: ``,
-  actualDueDate: ``,
-  lastAnswer: ``,
-  priority: ``,
-  isExpired: ``,
-}
 
 const topics = [
   `Задвоение при выборе алиасов.`,
@@ -33,7 +17,7 @@ const topics = [
   `Очистка папок Backup и Update после завершения установки`,
   `Редактор стандартных фрагментов`,
   `Ввод формул в трансляторе стандартных фрагментов`
-]
+];
 
 const people = [
   `Черенков Вячеслав`,
@@ -53,13 +37,13 @@ const people = [
   `Филипп Фейн`,
   `Стив Джобс`,
   `Илон Маск`
-]
+];
 
 const types = [
   `Инцидент`,
   `Доработка`,
   `Обращение`,
-]
+];
 
 const products = [
   `АВС-Н`,
@@ -71,7 +55,7 @@ const products = [
   `Toyota`,
   `BMW`,
   `Mercedes`
-]
+];
 
 const departments = [
   `Разработчики`,
@@ -79,21 +63,7 @@ const departments = [
   `Юридический отдел`,
   `Техническая поддержка`,
   `Отдел продаж`
-]
-
-const statuses = [
-  `Открыто`,
-  `Закрыто`,
-  `В разработке`,
-  `Отклонено`,
-  `Тестируется`,
-]
-
-const priorities = [
-  `Низкий`,
-  `Нормальный`,
-  `Высокий`,
-]
+];
 
 export const generateRequest = (i = getRandomInt(0, 1000)) => {
   const date = getRandomDate(BEGINDATE, ENDDATE);
@@ -109,19 +79,19 @@ export const generateRequest = (i = getRandomInt(0, 1000)) => {
     product: getRandomArrayItem(products),
     department: getRandomArrayItem(departments),
     responsible: getRandomArrayItem(people),
-    status: getRandomArrayItem(statuses),
+    status: getRandomObjectItem(Status),
     dueDate: dueDate.format(`DD.MM.yyyy`),
     actualDueDate: actualDueDate.format(`DD.MM.yyyy`),
     lastAnswer: getRandomArrayItem(people),
-    priority: getRandomArrayItem(priorities),
-    isExpired: actualDueDate > dueDate
-  }
-}
+    priority: getRandomObjectItem(Priority),
+    isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO
+  };
+};
 
 export const generateRequests = (count = 10) => {
   const requests = [];
   for (let i = 0; i < count; i++) {
-    requests.push(generateRequest(i));
+    requests.push(generateRequest(i + 1));
   }
   return requests;
 }
