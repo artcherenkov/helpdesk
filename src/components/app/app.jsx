@@ -1,32 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {Router as BrowserRouter, Switch, Route} from "react-router-dom";
 
-import Table from '../table/table';
-import Header from '../header/header';
-
-import {generateRequests} from '../../mock/request';
-import AddForm from '../add-form/add-form';
-
-const mockRequests = generateRequests(30);
+import MainPage from '../../pages/main/main';
+import RequestPage from '../../pages/request/request';
+import browserHistory from "../../browser-history";
 
 export default function App() {
-  const [isFormShown, setFormShown] = useState(false);
-  const [requests, setRequests] = useState(mockRequests);
-
-  const handleAddBtnClick = () => {
-    setFormShown(!isFormShown);
-  };
-
-  const handleFormSubmit = (newRequest) => (evt) => {
-    evt.preventDefault();
-    setRequests([...requests, newRequest]);
-    setFormShown(!isFormShown);
-  }
-
   return (
-    <>
-      <Header handleAddBtnClick={handleAddBtnClick} />
-      <Table requests={requests} />
-      {isFormShown && <AddForm handleFormSubmit={handleFormSubmit}/>}
-    </>
+    <BrowserRouter history={browserHistory}>
+      <Switch>
+        <Route exact path="/">
+          <MainPage />
+        </Route>
+        <Route exact path="/request/:id" component={RequestPage}/>
+      </Switch>
+    </BrowserRouter>
   );
 };
