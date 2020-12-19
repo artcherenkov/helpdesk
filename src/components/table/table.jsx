@@ -1,6 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import Row from '../row/row';
+import {getRequests} from '../../store/reducers/app-store/selectors';
 
 const Table = ({requests}) => {
   return (
@@ -36,4 +38,9 @@ const Table = ({requests}) => {
   );
 }
 
-export default Table;
+const mapStateToProps = (state) => ({
+  requests: getRequests(state)
+});
+
+export {Table};
+export default connect(mapStateToProps, null)(Table);

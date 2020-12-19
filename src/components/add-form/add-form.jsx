@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import {connect} from 'react-redux';
+
 import {generateRequest} from '../../mock/request';
+import {addRequest, toggleForm} from '../../store/action';
 
 const Form = styled.form`
   background-color: #325673;
@@ -23,4 +26,15 @@ const AddForm = ({onSubmit}) => {
   );
 };
 
-export default AddForm;
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(newRequest) {
+    return (evt) => {
+      evt.preventDefault();
+      dispatch(addRequest(newRequest));
+      dispatch(toggleForm())
+    }
+  }
+});
+
+export {AddForm};
+export default connect(null, mapDispatchToProps)(AddForm);

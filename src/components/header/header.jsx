@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import {connect} from 'react-redux';
+
+import {toggleForm} from '../../store/action';
 
 const PageHeader = styled.header`
   height: 50px;
@@ -40,15 +43,23 @@ const Image = styled.img`
   height: 15px;
 `
 
-const Header = ({handleAddBtnClick}) => {
+const Header = ({onAddBtnClick}) => {
   return (
     <PageHeader>
       <img src="img/logo.svg" alt="Логотип"/>
-      <Button onClick={handleAddBtnClick}>
+      <Button onClick={onAddBtnClick}>
         <Image src="img/icon-plus.svg" alt="Добавить"/> Создать
       </Button>
     </PageHeader>
   );
 };
 
-export default Header;
+const mapDispatchToProps = (dispatch) => ({
+  onAddBtnClick() {
+    dispatch(toggleForm())
+  }
+});
+
+export {Header};
+export default connect(null, mapDispatchToProps)(Header);
+
