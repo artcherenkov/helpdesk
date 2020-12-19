@@ -5,7 +5,7 @@ import MainPage from '../../pages/main/main';
 import RequestPage from '../../pages/request/request';
 import browserHistory from "../../browser-history";
 
-export default function App() {
+const App = () => {
   return (
     <BrowserRouter history={browserHistory}>
       <Switch>
@@ -17,3 +17,5 @@ export default function App() {
     </BrowserRouter>
   );
 };
+
+export default App;

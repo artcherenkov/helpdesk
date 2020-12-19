@@ -2,7 +2,7 @@ import React from 'react';
 
 import Row from '../row/row';
 
-export default function Table({requests}) {
+const Table = ({requests}) => {
   return (
     <section className="table-section">
       <div className="table__wrapper">
@@ -33,5 +33,7 @@ export default function Table({requests}) {
         </table>
       </div>
     </section>
-  )
-};
+  );
+}
+
+export default Table;

@@ -2,7 +2,7 @@ import React from 'react';
 import {IsExpired, Priority, Status} from '../../const';
 import {formatDates, getKeyByValue} from '../../utils/common';
 
-export default function Row({request}) {
+const Row = ({request}) => {
   // todo обрезать длинные темы
 
   const {status, priority, isExpired, date, dueDate, actualDueDate} = request;
@@ -36,3 +36,5 @@ export default function Row({request}) {
     </tr>
   );
 };
+
+export default Row;

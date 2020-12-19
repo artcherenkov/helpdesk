@@ -40,7 +40,7 @@ const Image = styled.img`
   height: 15px;
 `
 
-export default function Header({handleAddBtnClick}) {
+const Header = ({handleAddBtnClick}) => {
   return (
     <PageHeader>
       <img src="img/logo.svg" alt="Логотип"/>
@@ -50,3 +50,5 @@ export default function Header({handleAddBtnClick}) {
     </PageHeader>
   );
 };
+
+export default Header;

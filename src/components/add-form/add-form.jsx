@@ -15,10 +15,12 @@ const Form = styled.form`
   justify-content: center;
 `;
 
-export default function AddForm({handleFormSubmit}) {
+const AddForm = ({onSubmit}) => {
   return (
-    <Form onSubmit={handleFormSubmit(generateRequest())}>
+    <Form onSubmit={onSubmit(generateRequest())}>
       <button type="submit">Добавить случайный запрос</button>
     </Form>
   );
 };
+
+export default AddForm;
