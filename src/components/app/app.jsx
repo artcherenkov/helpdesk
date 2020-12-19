@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-// import '@atlaskit/css-reset';
+import React, {useState} from 'react';
 
 import Table from '../table/table';
 import Header from '../header/header';
