@@ -12,25 +12,25 @@ export default function Row({request}) {
   const [fDate, fDueDate, fActualDate] =  formatDates(`DD.MM.yyyy hh:mm`, date, dueDate, actualDueDate);
 
   return (
-    <tr>
-      <td>{request.id}</td>
-      <td>{fDate}</td>
-      <td>{request.topic}</td>
-      <td>{request.client}</td>
-      <td>{request.type}</td>
-      <td>{request.product}</td>
-      <td>{request.department}</td>
-      <td>{request.responsible}</td>
-      <td className={`table__status table__status--${status.toLowerCase()}`}>
+    <tr className="table__row">
+      <td className="table__cell">{request.id}</td>
+      <td className="table__cell">{fDate}</td>
+      <td className="table__cell table__cell_topic">{request.topic}</td>
+      <td className="table__cell table__cell_client">{request.client}</td>
+      <td className="table__cell">{request.type}</td>
+      <td className="table__cell">{request.product}</td>
+      <td className="table__cell">{request.department}</td>
+      <td className="table__cell table__cell_responsible">{request.responsible}</td>
+      <td className={`table__cell table__cell_status table__cell_status_${status.toLowerCase()}`}>
         {Status[status]}
       </td>
-      <td>{fDueDate}</td>
-      <td>{fActualDate}</td>
-      <td>{request.lastAnswer}</td>
-      <td className={`table__priority table__priority--${priority.toLowerCase()}`}>
+      <td className="table__cell">{fDueDate}</td>
+      <td className="table__cell">{fActualDate}</td>
+      <td className="table__cell table__cell_last-answer">{request.lastAnswer}</td>
+      <td className={`table__cell table__cell_priority table__cell_priority_${priority.toLowerCase()}`}>
         {Priority[priority]}
       </td>
-      <td className={`table__expired table__expired--${isExpiredClassName}`}>
+      <td className={`table__cell table__cell_expired table__cell_expired_${isExpiredClassName.toLowerCase()}`}>
         <span>{isExpired}</span>
       </td>
     </tr>
