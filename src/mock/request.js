@@ -72,7 +72,7 @@ export const generateRequest = (i = getRandomInt(0, 1000)) => {
 
   return {
     id: i,
-    date: date.format(`DD.MM.yyyy`),
+    date,
     topic: getRandomArrayItem(topics),
     client: getRandomArrayItem(people),
     type: getRandomArrayItem(types),
@@ -80,8 +80,8 @@ export const generateRequest = (i = getRandomInt(0, 1000)) => {
     department: getRandomArrayItem(departments),
     responsible: getRandomArrayItem(people),
     status: getRandomObjectItem(Status),
-    dueDate: dueDate.format(`DD.MM.yyyy`),
-    actualDueDate: actualDueDate.format(`DD.MM.yyyy`),
+    dueDate,
+    actualDueDate,
     lastAnswer: getRandomArrayItem(people),
     priority: getRandomObjectItem(Priority),
     isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO

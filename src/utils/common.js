@@ -33,3 +33,7 @@ export const getKeyByValue = (obj, value) => (
   reverseObj(obj)[value].toLowerCase()
 );
 
+export const formatDates = (pattern, ...dates) => (
+  dates.map(date => date.format(pattern))
+);
+
