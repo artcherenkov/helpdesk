@@ -6,10 +6,10 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import App from './components/app/app';
 import rootReducer from './store/reducers/root-reducer';
-import {loadRequests} from './store/action';
-import {generateRequests} from './mock/request';
+import {loadIssues} from './store/action';
+import {generateIssues} from './mock/issue';
 
-const mockRequests = generateRequests(30);
+const mockIssues = generateIssues(30);
 
 const store = createStore(
   rootReducer,
@@ -17,7 +17,7 @@ const store = createStore(
 );
 
 Promise.all([
-  store.dispatch(loadRequests(mockRequests))
+  store.dispatch(loadIssues(mockIssues))
 ]).then(() => {
   ReactDOM.render(
     <Provider store={store}>

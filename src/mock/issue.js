@@ -65,7 +65,7 @@ const departments = [
   `Отдел продаж`
 ];
 
-export const generateRequest = (i = getRandomInt(0, 1000)) => {
+export const generateIssue = (i = getRandomInt(0, 1000)) => {
   const date = getRandomDate(BEGINDATE, ENDDATE);
   const dueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`));
   const actualDueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`));
@@ -88,10 +88,10 @@ export const generateRequest = (i = getRandomInt(0, 1000)) => {
   };
 };
 
-export const generateRequests = (count = 10) => {
-  const requests = [];
+export const generateIssues = (count = 10) => {
+  const issues = [];
   for (let i = 0; i < count; i++) {
-    requests.push(generateRequest(i + 1));
+    issues.push(generateIssue(i + 1));
   }
-  return requests;
+  return issues;
 }
