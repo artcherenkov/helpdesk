@@ -1,18 +1,21 @@
 import React from 'react';
-import {Router as BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 import MainPage from '../../pages/main/main';
 import RequestPage from '../../pages/request/request';
-import browserHistory from "../../browser-history";
+import SunEditorComponent from '../sun-editor/sun-editor';
 
 const App = () => {
   return (
-    <BrowserRouter history={browserHistory}>
+    <BrowserRouter>
       <Switch>
         <Route exact path="/">
           <MainPage />
         </Route>
-        <Route exact path="/request/:id" component={RequestPage}/>
+        <Route exact path="/request/:id" component={RequestPage} />
+        <Route exact path="/suneditor">
+          <SunEditorComponent />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

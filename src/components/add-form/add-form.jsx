@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
 
-import {addRequest, toggleForm} from '../../store/action';
+import {addRequest, saveText, toggleForm} from '../../store/action';
 import {generateRequest} from '../../mock/request';
+import {SunEditorComponent} from '../sun-editor/sun-editor';
 
 const Overlay = styled.div`
   position: absolute;
@@ -19,13 +20,14 @@ const Overlay = styled.div`
 const Form = styled.form`
   background-color: white;
   padding: 25px 60px;
-  width: 400px;
+  width: 800px;
   top: 100px;
   left: calc(50% - 200px);
   border-radius: 5px;
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   border: 1px solid #104673;
   box-sizing: border-box;
   box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
@@ -58,9 +60,10 @@ const Button = styled.button`
 `;
 const InputsList = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 40px;
+  margin-bottom: 12px;
 `;
 const InputWrapper = styled.div`
   display: flex;
@@ -69,10 +72,19 @@ const InputWrapper = styled.div`
   &:not(:last-of-type) {
     margin-bottom: 12px;
   }
+  
+  &.double {
+    grid-column: span 2;
+  }
+  
+  & .editor-label {
+    color: #353535;
+    
+  }
 `
 const Label = styled.label`
   color: #999999;
-  font-size: 9px;
+  font-size: 12px;
   font-family: Helvetica;
   margin-bottom: 5px;
 `;
@@ -80,15 +92,16 @@ const Input = styled.input`
   border: 1px solid #104673;
   border-radius: 5px;
   background-color: #fefefe;
-  height: 25px;
-  width: 100%;
+  height: 30px;
   
   &:not(:last-child) {
     margin-bottom: 30px;
   }
 `;
 
-const AddForm = ({saveRequest}) => {
+const AddForm = ({saveRequest, saveEditorData}) => {
+  const editorRef = useRef(null);
+
   const onSubmit = (evt) => {
     evt.preventDefault();
     const formData = new FormData(evt.target);
@@ -98,7 +111,7 @@ const AddForm = ({saveRequest}) => {
     }
     const randomRequest = generateRequest();
     res = {...randomRequest, ...res};
-    console.log(res)
+    saveEditorData(editorRef.current.editor.getContents());
     saveRequest(res);
   };
 
@@ -107,7 +120,7 @@ const AddForm = ({saveRequest}) => {
       <Form onSubmit={onSubmit}>
         <legend>Добавление заявки</legend>
         <InputsList>
-          <InputWrapper>
+          <InputWrapper className="double">
             <Label for="topic">Тема заявки</Label>
             <Input type="text" name="topic" id="topic"/>
           </InputWrapper>
@@ -128,6 +141,11 @@ const AddForm = ({saveRequest}) => {
             <Input type="text" name="priority" id="priority"/>
           </InputWrapper>
         </InputsList>
+        <InputWrapper>
+          <p className="editor-label">Опишите вашу вашу проблему подробнее</p>
+          <SunEditorComponent _ref={editorRef}/>
+        </InputWrapper>
+
         <Button type="submit">Добавить заявку</Button>
       </Form>
     </Overlay>
@@ -135,6 +153,9 @@ const AddForm = ({saveRequest}) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  saveEditorData(data) {
+    dispatch(saveText(data))
+  },
   saveRequest(newRequest) {
     dispatch(addRequest(newRequest));
     dispatch(toggleForm());

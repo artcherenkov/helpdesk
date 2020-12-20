@@ -42,7 +42,7 @@ const Image = styled.img`
   margin-bottom: 1px;
   width: 15px;
   height: 15px;
-`
+`;
 
 const Header = ({onAddBtnClick}) => {
   return (
@@ -63,4 +63,3 @@ const mapDispatchToProps = (dispatch) => ({
 
 export {Header};
 export default connect(null, mapDispatchToProps)(Header);
-
