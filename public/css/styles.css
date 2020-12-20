@@ -32,13 +32,6 @@ body {
 
 .table__row {
   border-bottom: 1px solid #104673;
-  cursor: pointer;
-}
-.table__row:hover {
-  opacity: .6;
-}
-.table__row:active {
-  opacity: .3;
 }
 .table__row:nth-child(2n) {
   background-color: #f3f3f3;
@@ -56,6 +49,11 @@ body {
 }
 .table__cell_topic {
   min-width: 200px;
+}
+.table__cell_topic a {
+  color: #353535;
+  text-decoration: none;
+  font-size: 14px;
 }
 .table__cell_client {
   min-width: 120px;

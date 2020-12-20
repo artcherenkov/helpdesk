@@ -18,7 +18,6 @@ const Main = ({isFormShown, onSubmit, fromTextEdit}) => {
 
   useEffect(() => {
     textRef.current.innerHTML = fromTextEdit;
-    console.log(fromTextEdit);
   })
 
   return (

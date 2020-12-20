@@ -110,8 +110,7 @@ const AddForm = ({saveIssue, saveEditorData}) => {
       res = {...res, [key]: value} ;
     }
     const randomIssue = generateIssue();
-    res = {...randomIssue, ...res};
-    saveEditorData(editorRef.current.editor.getContents());
+    res = {...randomIssue, description: editorRef.current.editor.getContents(), ...res};
     saveIssue(res);
   };
 

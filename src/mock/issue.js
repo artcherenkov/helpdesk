@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {getRandomDate, getRandomInt, getRandomArrayItem, getRandomObjectItem} from '../utils/common';
 import {IsExpired, Priority, Status} from '../const';
+import { loremIpsum } from 'react-lorem-ipsum';
 
 const BEGINDATE = moment(`2015-01-01`);
 const ENDDATE = moment(`2022-01-01`);
@@ -84,7 +85,8 @@ export const generateIssue = (i = getRandomInt(0, 1000)) => {
     actualDueDate,
     lastAnswer: getRandomArrayItem(people),
     priority: getRandomObjectItem(Priority),
-    isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO
+    isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO,
+    description: loremIpsum({p: 3})
   };
 };
 

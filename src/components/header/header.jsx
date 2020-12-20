@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {connect} from 'react-redux';
 
 import {toggleForm} from '../../store/action';
+import {Link} from 'react-router-dom';
 
 const PageHeader = styled.header`
   height: 50px;
@@ -47,7 +48,9 @@ const Image = styled.img`
 const Header = ({onAddBtnClick}) => {
   return (
     <PageHeader>
-      <img src="img/logo.svg" alt="Логотип"/>
+      <Link to="/">
+        <img src="img/logo.svg" alt="Логотип"/>
+      </Link>
       <Button onClick={onAddBtnClick}>
         <Image src="img/icon-plus.svg" alt="Добавить"/> Создать
       </Button>

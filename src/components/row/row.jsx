@@ -1,6 +1,7 @@
 import React from 'react';
 import {IsExpired, Priority, Status} from '../../const';
 import {formatDates, getKeyByValue} from '../../utils/common';
+import {Link} from 'react-router-dom';
 
 const Row = ({issue}) => {
   // todo обрезать длинные темы
@@ -15,7 +16,11 @@ const Row = ({issue}) => {
     <tr className="table__row">
       <td className="table__cell">{issue.id}</td>
       <td className="table__cell">{fDate}</td>
-      <td className="table__cell table__cell_topic">{issue.topic}</td>
+      <td className="table__cell table__cell_topic">
+        <Link to={`/issue/${issue.id}`}>
+          {issue.topic}
+        </Link>
+      </td>
       <td className="table__cell table__cell_client">{issue.client}</td>
       <td className="table__cell">{issue.type}</td>
       <td className="table__cell">{issue.product}</td>
@@ -33,7 +38,7 @@ const Row = ({issue}) => {
       <td className={`table__cell table__cell_expired table__cell_expired_${isExpiredClassName.toLowerCase()}`}>
         <span>{isExpired}</span>
       </td>
-    </tr>
+</tr>
   );
 };
 
