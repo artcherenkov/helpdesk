@@ -2,6 +2,7 @@ import {ActionType} from "../../action";
 
 const initialState = {
   requests: [],
+  html: ``,
 };
 
 const appStore = (state = initialState, action) => {
@@ -13,6 +14,9 @@ const appStore = (state = initialState, action) => {
     }
     case ActionType.LOAD_REQUESTS: {
       return {...state, requests: action.payload};
+    }
+    case ActionType.SAVE_TEXT: {
+      return {...state, html: action.payload};
     }
     default:
       return state;
