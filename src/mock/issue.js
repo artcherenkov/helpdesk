@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {getRandomDate, getRandomInt, getRandomArrayItem, getRandomObjectItem} from '../utils/common';
 import {IsExpired, Priority, Status} from '../const';
+import { loremIpsum } from 'react-lorem-ipsum';
 
 const BEGINDATE = moment(`2015-01-01`);
 const ENDDATE = moment(`2022-01-01`);
@@ -65,14 +66,12 @@ const departments = [
   `Отдел продаж`
 ];
 
-export const generateRequest = (i = getRandomInt(0, 1000)) => {
+export const generateIssue = (dev = false, i = getRandomInt(0, 1000)) => {
   const date = getRandomDate(BEGINDATE, ENDDATE);
-  const dueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`));
-  const actualDueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`));
+  const dueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
+  const actualDueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
 
-  return {
-    id: i,
-    date,
+  let issue = {
     topic: getRandomArrayItem(topics),
     client: getRandomArrayItem(people),
     type: getRandomArrayItem(types),
@@ -80,18 +79,26 @@ export const generateRequest = (i = getRandomInt(0, 1000)) => {
     department: getRandomArrayItem(departments),
     responsible: getRandomArrayItem(people),
     status: getRandomObjectItem(Status),
-    dueDate,
-    actualDueDate,
+    dueDate: new Date(dueDate),
+    actualDueDate: new Date(actualDueDate),
     lastAnswer: getRandomArrayItem(people),
     priority: getRandomObjectItem(Priority),
-    isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO
-  };
+    isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO,
+    description: loremIpsum()[0].slice(255)
+  }
+
+  if (dev) {
+    return issue;
+  }
+
+  issue = {...issue, id: i, date}
+  return issue;
 };
 
-export const generateRequests = (count = 10) => {
-  const requests = [];
+export const generateIssues = (count = 10) => {
+  const issues = [];
   for (let i = 0; i < count; i++) {
-    requests.push(generateRequest(i + 1));
+    issues.push(generateIssue(i + 1));
   }
-  return requests;
+  return issues;
 }

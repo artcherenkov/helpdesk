@@ -1,1 +1,1 @@
-export const getRequests = (state) => state.STORE.requests;
+export const getIssues = (state) => state.STORE.issues;

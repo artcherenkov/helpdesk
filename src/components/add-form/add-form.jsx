@@ -2,8 +2,8 @@ import React, {useRef} from 'react';
 import styled from 'styled-components';
 import {connect} from 'react-redux';
 
-import {addRequest, saveText, toggleForm} from '../../store/action';
-import {generateRequest} from '../../mock/request';
+import {addIssue, saveText, toggleForm} from '../../store/action';
+import {generateIssue} from '../../mock/issue';
 import {SunEditorComponent} from '../sun-editor/sun-editor';
 
 const Overlay = styled.div`
@@ -99,7 +99,7 @@ const Input = styled.input`
   }
 `;
 
-const AddForm = ({saveRequest, saveEditorData}) => {
+const AddForm = ({saveIssue, saveEditorData}) => {
   const editorRef = useRef(null);
 
   const onSubmit = (evt) => {
@@ -109,10 +109,9 @@ const AddForm = ({saveRequest, saveEditorData}) => {
     for (let [key, value] of formData) {
       res = {...res, [key]: value} ;
     }
-    const randomRequest = generateRequest();
-    res = {...randomRequest, ...res};
-    saveEditorData(editorRef.current.editor.getContents());
-    saveRequest(res);
+    const randomIssue = generateIssue();
+    res = {...randomIssue, description: editorRef.current.editor.getContents(), ...res};
+    saveIssue(res);
   };
 
   return (
@@ -156,8 +155,8 @@ const mapDispatchToProps = (dispatch) => ({
   saveEditorData(data) {
     dispatch(saveText(data))
   },
-  saveRequest(newRequest) {
-    dispatch(addRequest(newRequest));
+  saveIssue(newIssue) {
+    dispatch(addIssue(newIssue));
     dispatch(toggleForm());
   }
 });

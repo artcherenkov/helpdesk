@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 import MainPage from '../../pages/main/main';
-import RequestPage from '../../pages/request/request';
+import IssuePage from '../../pages/issue/issue';
 import SunEditorComponent from '../sun-editor/sun-editor';
 
 const App = () => {
@@ -12,7 +12,7 @@ const App = () => {
         <Route exact path="/">
           <MainPage />
         </Route>
-        <Route exact path="/request/:id" component={RequestPage} />
+        <Route exact path="/issue/:id" component={IssuePage} />
         <Route exact path="/suneditor">
           <SunEditorComponent />
         </Route>

@@ -2,9 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import Row from '../row/row';
-import {getRequests} from '../../store/reducers/app-store/selectors';
+import {getIssues} from '../../store/reducers/app-store/selectors';
 
-const Table = ({requests}) => {
+const Table = ({issues}) => {
   return (
     <section className="table-section">
       <div className="table__wrapper">
@@ -28,8 +28,8 @@ const Table = ({requests}) => {
             </tr>
           </thead>
           <tbody className="table__body">
-            {requests.map((request, i) => (
-              <Row key={`request-${i}`} request={request} />
+            {issues.map((issue, i) => (
+              <Row key={`issue-${i}`} issue={issue} />
             ))}
           </tbody>
         </table>
@@ -39,7 +39,7 @@ const Table = ({requests}) => {
 }
 
 const mapStateToProps = (state) => ({
-  requests: getRequests(state)
+  issues: getIssues(state)
 });
 
 export {Table};
