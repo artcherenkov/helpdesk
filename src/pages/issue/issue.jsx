@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
 import Header from '../../components/header/header';
-import {getFormState} from '../../store/reducers/app-state/selectors';
 import {connect} from 'react-redux';
 import {getIssues} from '../../store/reducers/app-store/selectors';
 
