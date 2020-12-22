@@ -2,15 +2,16 @@ import React from 'react';
 import {IsExpired, Priority, Status} from '../../const';
 import {formatDates, getKeyByValue} from '../../utils/common';
 import {Link} from 'react-router-dom';
+import moment from 'moment';
 
 const Row = ({issue}) => {
   // todo обрезать длинные темы
 
-  const {status, priority, isExpired, date, dueDate, actualDueDate} = issue;
+  const {status, priority, isExpired, createdAt, dueDate, actualDueDate} = issue;
   const isExpiredClassName = getKeyByValue(IsExpired, isExpired);
 
   // fDate – буква f значит "форматированный"
-  const [fDate, fDueDate, fActualDate] =  formatDates(`DD.MM.yyyy hh:mm`, date, dueDate, actualDueDate);
+  const [fDate, fDueDate, fActualDate] =  formatDates(`DD.MM.yyyy hh:mm`, moment(createdAt), moment(dueDate), moment(actualDueDate));
 
   return (
     <tr className="table__row">

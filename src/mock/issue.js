@@ -66,14 +66,12 @@ const departments = [
   `Отдел продаж`
 ];
 
-export const generateIssue = (i = getRandomInt(0, 1000)) => {
+export const generateIssue = (dev = false, i = getRandomInt(0, 1000)) => {
   const date = getRandomDate(BEGINDATE, ENDDATE);
-  const dueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`));
-  const actualDueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`));
+  const dueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
+  const actualDueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
 
-  return {
-    id: i,
-    date,
+  let issue = {
     topic: getRandomArrayItem(topics),
     client: getRandomArrayItem(people),
     type: getRandomArrayItem(types),
@@ -81,13 +79,20 @@ export const generateIssue = (i = getRandomInt(0, 1000)) => {
     department: getRandomArrayItem(departments),
     responsible: getRandomArrayItem(people),
     status: getRandomObjectItem(Status),
-    dueDate,
-    actualDueDate,
+    dueDate: new Date(dueDate),
+    actualDueDate: new Date(actualDueDate),
     lastAnswer: getRandomArrayItem(people),
     priority: getRandomObjectItem(Priority),
     isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO,
-    description: loremIpsum({p: 3})
-  };
+    description: loremIpsum()[0].slice(255)
+  }
+
+  if (dev) {
+    return issue;
+  }
+
+  issue = {...issue, id: i, date}
+  return issue;
 };
 
 export const generateIssues = (count = 10) => {

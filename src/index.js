@@ -6,10 +6,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import App from './components/app/app';
 import rootReducer from './store/reducers/root-reducer';
-import {loadIssues} from './store/action';
-import {generateIssues} from './mock/issue';
-
-const mockIssues = generateIssues(30);
+import {fetchIssues} from './utils/fetch-api';
 
 const store = createStore(
   rootReducer,
@@ -17,7 +14,7 @@ const store = createStore(
 );
 
 Promise.all([
-  store.dispatch(loadIssues(mockIssues))
+  fetchIssues(store)
 ]).then(() => {
   ReactDOM.render(
     <Provider store={store}>
