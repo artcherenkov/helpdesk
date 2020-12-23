@@ -2,7 +2,7 @@ import {ActionType} from "../../action";
 
 const initialState = {
   issues: [],
-  html: ``,
+  textEditorData: ``,
 };
 
 const appStore = (state = initialState, action) => {
@@ -14,9 +14,6 @@ const appStore = (state = initialState, action) => {
     }
     case ActionType.LOAD_ISSUES: {
       return {...state, issues: action.payload};
-    }
-    case ActionType.SAVE_TEXT: {
-      return {...state, html: action.payload};
     }
     default:
       return state;

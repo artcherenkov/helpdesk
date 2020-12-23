@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BACKEND_URL = `https://express-api-newbie.herokuapp.com`;
+const BACKEND_URL = `http://localhost:5000`;
 const REQUEST_TIMEOUT = 5000;
 
 export const createAPI = () => {

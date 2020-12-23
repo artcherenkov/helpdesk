@@ -2,7 +2,7 @@ export const ActionType = {
   ADD_ISSUE: `ADD_ISSUE`,
   LOAD_ISSUES: `LOAD_ISSUES`,
   TOGGLE_FORM: `TOGGLE_FORM`,
-  SAVE_TEXT: `SAVE_TEXT`
+  TOGGLE_LOADING: `TOGGLE_LOADING`
 };
 
 export const addIssue = (issue) => ({
@@ -19,7 +19,6 @@ export const toggleForm = () => ({
   type: ActionType.TOGGLE_FORM,
 });
 
-export const saveText = (text) => ({
-  type: ActionType.SAVE_TEXT,
-  payload: text,
+export const toggleLoading = () => ({
+  type: ActionType.TOGGLE_LOADING,
 });

@@ -1,11 +1,13 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components';
-import {connect, useDispatch, useStore} from 'react-redux';
+import {connect} from 'react-redux';
 
-import {toggleForm} from '../../store/action';
+import {toggleForm as toggleFormAction, toggleLoading as toggleLoadingAction} from '../../store/action';
 import {generateIssue} from '../../mock/issue';
-import {SunEditorComponent} from '../sun-editor/sun-editor';
-import {fetchIssues, postIssue} from '../../utils/fetch-api';
+import SunEditorComponent from '../sun-editor/sun-editor';
+import {postIssue as postIssueAction} from '../../store/api-action';
+import {getLoadingState} from '../../store/reducers/app-state/selectors';
+import {getFormData} from '../../utils/common';
 
 const Overlay = styled.div`
   position: absolute;
@@ -17,6 +19,7 @@ const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 90;
 `
 const Form = styled.form`
   background-color: white;
@@ -58,6 +61,11 @@ const Button = styled.button`
   
   &:active {
     opacity: .3;
+  }
+  
+  &:disabled {
+    opacity: .3;
+    cursor: not-allowed;
   }
 `;
 const InputsList = styled.div`
@@ -121,28 +129,18 @@ const FormHeader = styled.div`
   }
 `
 
-const AddForm = ({toggle}) => {
+const AddForm = ({postIssue, onCloseBtnClick, isLoading, toggleLoading}) => {
   const editorRef = useRef(null);
-  const store = useStore();
-  const dispatch = useDispatch();
 
   const onSubmit = (evt) => {
     evt.preventDefault();
-    const formData = new FormData(evt.target);
-    let res = {};
-    for (let [key, value] of formData) {
-      res = {...res, [key]: value} ;
-    }
+
+    let res = getFormData(evt.target);
     const randomIssue = generateIssue(true);
     res = {...randomIssue, description: editorRef.current.editor.getContents(), ...res};
-    postIssue(res)
-      .then(() => fetchIssues(store))
-      .then(toggle);
+    toggleLoading();
+    postIssue(res);
   };
-
-  const onCloseBtnClick = () => {
-    dispatch(toggleForm());
-  }
 
   // todo отхлебнули классы приоритетов
   return (
@@ -159,7 +157,6 @@ const AddForm = ({toggle}) => {
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="type">Тип заявки</Label>
-            {/*<Input type="text" name="type" id="type"/>*/}
             <Select name="type" id="type">
               <option value="Не выбрано">Не выбрано</option>
               <option value="Инцидент">Инцидент</option>
@@ -206,17 +203,27 @@ const AddForm = ({toggle}) => {
           <SunEditorComponent _ref={editorRef}/>
         </InputWrapper>
 
-        <Button type="submit">Добавить заявку</Button>
+        <Button type="submit" disabled={isLoading}>{isLoading ? `Сохранение...` : `Добавить заявку`}</Button>
       </Form>
     </Overlay>
   );
 };
 
+const mapStateToProps = state => ({
+  isLoading: getLoadingState(state)
+})
+
 const mapDispatchToProps = (dispatch) => ({
-  toggleForm() {
-    dispatch(toggleForm());
+  postIssue(issue) {
+    dispatch(postIssueAction(issue));
+  },
+  onCloseBtnClick() {
+    dispatch(toggleFormAction());
+  },
+  toggleLoading() {
+    dispatch(toggleLoadingAction());
   }
 });
 
 export {AddForm};
-export default connect(null, mapDispatchToProps)(AddForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddForm);

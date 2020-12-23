@@ -51,9 +51,15 @@ body {
   min-width: 200px;
 }
 .table__cell_topic a {
-  color: #353535;
-  text-decoration: none;
-  font-size: 14px;
+  color: #104673;
+  line-height: 1.5em;
+  text-decoration: underline;
+}
+.table__cell_topic a:hover {
+  opacity: .6;
+}
+.table__cell_topic a:active {
+  opacity: .3;
 }
 .table__cell_client {
   min-width: 120px;

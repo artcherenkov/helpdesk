@@ -1,8 +1,9 @@
 import React from 'react';
-import {IsExpired, Priority, Status} from '../../const';
-import {formatDates, getKeyByValue} from '../../utils/common';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
+
+import {IsExpired, Priority, Status} from '../../const';
+import {formatDates, getKeyByValue} from '../../utils/common';
 
 const Row = ({issue}) => {
   // todo обрезать длинные темы

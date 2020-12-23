@@ -1,15 +1,16 @@
 import React, {useEffect, useRef} from 'react';
 import styled from 'styled-components';
-import Header from '../../components/header/header';
 import {connect} from 'react-redux';
+
 import {getIssues} from '../../store/reducers/app-store/selectors';
+import Header from '../../components/header/header';
+import AddForm from '../../components/add-form/add-form';
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 450px;
   grid-column-gap: 30px;
 `;
-
 const Main = styled.main`
   min-width: 500px;
   padding-left: 20px;
@@ -22,7 +23,6 @@ const Main = styled.main`
     font-size: 30px;
   }
 `;
-
 const IssueSection = styled.section`
   & .issue__topic {
     text-align: center;
@@ -44,7 +44,6 @@ const IssueSection = styled.section`
     line-height: 22px;  
   }
 `
-
 const Aside = styled.aside`
   padding-right: 20px;
   
@@ -56,13 +55,10 @@ const Aside = styled.aside`
 const Issue = (props) => {
   const issueId = props.match.params.id;
   const issue = props.issues.find(_issue => _issue.id.toString() === issueId);
-  console.log(issue);
 
   const textRef = useRef(null);
 
-  useEffect(() => {
-    textRef.current.innerHTML = issue.description;
-  })
+  useEffect(() => textRef.current.innerHTML = issue.description);
 
   return (
     <>

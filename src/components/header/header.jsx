@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import {connect, useStore} from 'react-redux';
+import {connect} from 'react-redux';
 
 import {Link} from 'react-router-dom';
-import {generateIssue} from '../../mock/issue';
-import {fetchIssues, postIssue} from '../../utils/fetch-api';
+import {postIssue as postIssueAction} from '../../store/api-action';
+import {toggleForm} from '../../store/action';
+import AddForm from '../add-form/add-form';
+import {getFormState} from '../../store/reducers/app-state/selectors';
+import {getTextEditorData} from '../../store/reducers/app-store/selectors';
 
 const PageHeader = styled.header`
   height: 50px;
@@ -46,26 +49,31 @@ const Image = styled.img`
   height: 15px;
 `;
 
-const Header = () => {
-  const store = useStore();
+const Header = ({onAddBtnClick, isFormShown, onSubmit}) => (
+  <PageHeader>
+    <Link to="/">
+      <img src="img/logo.svg" alt="Логотип"/>
+    </Link>
+    <Button onClick={onAddBtnClick}>
+      <Image src="img/icon-plus.svg" alt="Добавить"/> Создать
+    </Button>
+    {isFormShown && <AddForm onSubmit={onSubmit}/>}
+  </PageHeader>
+);
 
-  const onAddBtnClick = () => {
-    postIssue(generateIssue(true))
-      .then(() => fetchIssues(store));
+const mapStateToProps = (state) => ({
+  isFormShown: getFormState(state),
+  fromTextEdit: getTextEditorData(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  postIssue(issue) {
+    dispatch(postIssueAction(issue))
+  },
+  onAddBtnClick()  {
+    dispatch(toggleForm());
   }
-
-  return (
-    <PageHeader>
-      <Link to="/">
-        <img src="img/logo.svg" alt="Логотип"/>
-      </Link>
-      <Button onClick={onAddBtnClick}>
-        <Image src="img/icon-plus.svg" alt="Добавить"/> Создать
-      </Button>
-    </PageHeader>
-  );
-};
-
+});
 
 export {Header};
-export default connect(null, null)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

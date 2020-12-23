@@ -37,3 +37,11 @@ export const formatDates = (pattern, ...dates) => (
   dates.map(date => date.format(pattern))
 );
 
+export const getFormData = (form) => {
+  const formData = new FormData(form);
+  let res = {};
+  for (let [key, value] of formData) {
+    res = {...res, [key]: value} ;
+  }
+  return res;
+}

@@ -1,16 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import styled from 'styled-components';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
-
-import {saveText} from '../../store/action';
 
 const Wrapper = styled.div`
   margin-bottom: 40px;
 `;
 
-const SunEditorComponent = ({saveResult, _ref}) => {
+const SunEditorComponent = ({_ref}) => {
   const editorRef = _ref;
 
   const options = {
@@ -38,11 +35,4 @@ const SunEditorComponent = ({saveResult, _ref}) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  saveResult(text) {
-    dispatch(saveText(text));
-  }
-});
-
-export {SunEditorComponent};
-export default connect(null, mapDispatchToProps)(SunEditorComponent);
+export default SunEditorComponent;

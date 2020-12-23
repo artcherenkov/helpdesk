@@ -10,7 +10,7 @@ import rootReducer from './store/reducers/root-reducer';
 import {fetchIssues} from './store/api-action';
 import {createAPI} from './services/api';
 
-const api = createAPI(() => console.log(`не авторизован`));
+const api = createAPI();
 
 const store = createStore(
   rootReducer,
@@ -19,17 +19,14 @@ const store = createStore(
   )
 );
 
-Promise.all([
-  store.dispatch(fetchIssues())
-]).then(() => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    document.getElementById('root')
-  );
-});
+store.dispatch(fetchIssues());
 
-// todo причесать весь код, встроить middleware и axios
+ReactDOM.render(
+  <Provider store={store}>
+    <App/>
+  </Provider>,
+  document.getElementById('root')
+);
+
 // todo не приходят ошибки из бд и вообще с сервера
 // todo нет безопасности
