@@ -1,10 +1,11 @@
 import React, {useRef} from 'react';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
+import {connect, useDispatch, useStore} from 'react-redux';
 
-import {addIssue, saveText, toggleForm} from '../../store/action';
+import {toggleForm} from '../../store/action';
 import {generateIssue} from '../../mock/issue';
 import {SunEditorComponent} from '../sun-editor/sun-editor';
+import {fetchIssues, postIssue} from '../../utils/fetch-api';
 
 const Overlay = styled.div`
   position: absolute;
@@ -35,9 +36,10 @@ const Form = styled.form`
   
   & legend {
     font-family: Helvetica;
-    font-size: 20px;
+    font-size: 24px;
     color: #353535;
     margin-bottom: 33px;
+    text-align: center;
   }
 `;
 const Button = styled.button`
@@ -98,9 +100,31 @@ const Input = styled.input`
     margin-bottom: 30px;
   }
 `;
+const Select = styled.select`
+  border: 1px solid #104673;
+  border-radius: 5px;
+  background-color: #fefefe;
+  height: 30px;
+`;
+const FormHeader = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  
+  & button {
+    height: 30px;
+    width: 30px;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+`
 
-const AddForm = ({saveIssue, saveEditorData}) => {
+const AddForm = ({toggle}) => {
   const editorRef = useRef(null);
+  const store = useStore();
+  const dispatch = useDispatch();
 
   const onSubmit = (evt) => {
     evt.preventDefault();
@@ -109,35 +133,72 @@ const AddForm = ({saveIssue, saveEditorData}) => {
     for (let [key, value] of formData) {
       res = {...res, [key]: value} ;
     }
-    const randomIssue = generateIssue();
+    const randomIssue = generateIssue(true);
     res = {...randomIssue, description: editorRef.current.editor.getContents(), ...res};
-    saveIssue(res);
+    postIssue(res)
+      .then(() => fetchIssues(store))
+      .then(toggle);
   };
 
+  const onCloseBtnClick = () => {
+    dispatch(toggleForm());
+  }
+
+  // todo отхлебнули классы приоритетов
   return (
     <Overlay>
       <Form onSubmit={onSubmit}>
-        <legend>Добавление заявки</legend>
+        <FormHeader>
+          <h2>Добавление заявки</h2>
+          <button onClick={onCloseBtnClick}>Х</button>
+        </FormHeader>
         <InputsList>
           <InputWrapper className="double">
-            <Label for="topic">Тема заявки</Label>
+            <Label htmlFor="topic">Тема заявки</Label>
             <Input type="text" name="topic" id="topic"/>
           </InputWrapper>
           <InputWrapper>
-            <Label for="type">Тип заявки</Label>
-            <Input type="text" name="type" id="type"/>
+            <Label htmlFor="type">Тип заявки</Label>
+            {/*<Input type="text" name="type" id="type"/>*/}
+            <Select name="type" id="type">
+              <option value="Не выбрано">Не выбрано</option>
+              <option value="Инцидент">Инцидент</option>
+              <option value="Доработка">Доработка</option>
+              <option value="Запрос">Запрос</option>
+              <option value="Обращение">Обращение</option>
+            </Select>
           </InputWrapper>
           <InputWrapper>
-            <Label for="product">Продукт</Label>
-            <Input type="text" name="product" id="product"/>
+            <Label htmlFor="product">Продукт</Label>
+            <Select name="product" id="product">
+              <option value="Не выбрано">Не выбрано</option>
+              <option value="BIM-плагины">BIM-плагины</option>
+              <option value="WEB">WEB</option>
+              <option value="АВС">АВС</option>
+              <option value="АВС SNB Compiler">АВС SNB Compiler</option>
+              <option value="АВС-KZ">АВС-KZ</option>
+              <option value="АВС-RU">АВС-RU</option>
+              <option value="АВС_UZ">АВС_UZ</option>
+              <option value="АВС-ПИР">АВС-ПИР</option>
+            </Select>
           </InputWrapper>
           <InputWrapper>
-            <Label for="department">Отдел</Label>
-            <Input type="text" name="department" id="department"/>
+            <Label htmlFor="department">Отдел</Label>
+            <Select name="department" id="department">
+              <option value="Не выбрано">Не выбрано</option>
+              <option value="Отдел продаж">Отдел продаж</option>
+              <option value="Техническая поддержка">Техническая поддержка</option>
+              <option value="Разработчики">Разработчики</option>
+              <option value="Бухгалтерия">Бухгалтерия</option>
+            </Select>
           </InputWrapper>
           <InputWrapper>
-            <Label for="priority">Приоритет</Label>
-            <Input type="text" name="priority" id="priority"/>
+            <Label htmlFor="priority">Приоритет</Label>
+            <Select name="priority" id="priority">
+              <option value="Низкий">Низкий</option>
+              <option value="Нормальный">Нормальный</option>
+              <option value="Высокий">Высокий</option>
+            </Select>
           </InputWrapper>
         </InputsList>
         <InputWrapper>
@@ -152,11 +213,7 @@ const AddForm = ({saveIssue, saveEditorData}) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  saveEditorData(data) {
-    dispatch(saveText(data))
-  },
-  saveIssue(newIssue) {
-    dispatch(addIssue(newIssue));
+  toggleForm() {
     dispatch(toggleForm());
   }
 });
