@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
+import {connect, useStore} from 'react-redux';
 
-import {toggleForm} from '../../store/action';
+import {addIssue, toggleForm} from '../../store/action';
 import {Link} from 'react-router-dom';
+import {generateIssue} from '../../mock/issue';
+import {fetchIssues, postIssue} from '../../utils/fetch-api';
 
 const PageHeader = styled.header`
   height: 50px;
@@ -45,7 +47,14 @@ const Image = styled.img`
   height: 15px;
 `;
 
-const Header = ({onAddBtnClick}) => {
+const Header = () => {
+  const store = useStore();
+
+  const onAddBtnClick = () => {
+    postIssue(generateIssue(true))
+      .then(() => fetchIssues(store));
+  }
+
   return (
     <PageHeader>
       <Link to="/">
@@ -60,7 +69,8 @@ const Header = ({onAddBtnClick}) => {
 
 const mapDispatchToProps = (dispatch) => ({
   onAddBtnClick() {
-    dispatch(toggleForm())
+    postIssue(generateIssue(true))
+      .then(fetchIssues())
   }
 });
 
