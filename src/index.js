@@ -7,7 +7,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 import App from './components/app/app';
 import rootReducer from './store/reducers/root-reducer';
-import {fetchIssues} from './utils/fetch-api';
+import {fetchIssues} from './store/api-action';
 import {createAPI} from './services/api';
 
 const api = createAPI(() => console.log(`не авторизован`));
@@ -20,7 +20,7 @@ const store = createStore(
 );
 
 Promise.all([
-  fetchIssues(store)
+  store.dispatch(fetchIssues())
 ]).then(() => {
   ReactDOM.render(
     <Provider store={store}>
