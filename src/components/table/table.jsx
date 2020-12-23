@@ -3,8 +3,12 @@ import {connect} from 'react-redux';
 
 import Row from '../row/row';
 import {getIssues} from '../../store/reducers/app-store/selectors';
+import moment from 'moment';
 
 const Table = ({issues}) => {
+  const sortedIssues = issues.sort((a, b) => {
+    return moment(b.createdAt).unix() - moment(a.createdAt).unix();
+  });
   return (
     <section className="table-section">
       <div className="table__wrapper">
@@ -28,7 +32,7 @@ const Table = ({issues}) => {
             </tr>
           </thead>
           <tbody className="table__body">
-            {issues.map((issue, i) => (
+            {sortedIssues.map((issue, i) => (
               <Row key={`issue-${i}`} issue={issue} />
             ))}
           </tbody>

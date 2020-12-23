@@ -23,3 +23,7 @@ Promise.all([
     document.getElementById('root')
   );
 });
+
+// todo причесать весь код, встроить middleware и axios
+// todo не приходят ошибки из бд и вообще с сервера
+// todo нет безопасности
