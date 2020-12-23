@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import {connect, useStore} from 'react-redux';
 
-import {addIssue, toggleForm} from '../../store/action';
 import {Link} from 'react-router-dom';
 import {generateIssue} from '../../mock/issue';
 import {fetchIssues, postIssue} from '../../utils/fetch-api';
@@ -67,12 +66,6 @@ const Header = () => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onAddBtnClick() {
-    postIssue(generateIssue(true))
-      .then(fetchIssues())
-  }
-});
 
 export {Header};
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(null, null)(Header);
