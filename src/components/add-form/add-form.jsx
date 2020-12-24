@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -209,10 +210,16 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
   );
 };
 
+AddForm.propTypes = {
+  postIssue: PropTypes.func.isRequired,
+  onCloseBtnClick: PropTypes.func.isRequired,
+  toggleLoading: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
+
 const mapStateToProps = state => ({
   isLoading: getLoadingState(state),
 });
-
 const mapDispatchToProps = (dispatch) => ({
   postIssue (issue) {
     dispatch(postIssueAction(issue));

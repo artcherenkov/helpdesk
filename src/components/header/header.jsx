@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
@@ -49,7 +50,7 @@ const Image = styled.img`
   height: 15px;
 `;
 
-const Header = ({ onAddBtnClick, isFormShown, onSubmit }) => (
+const Header = ({ onAddBtnClick, isFormShown }) => (
   <PageHeader>
     <Link to="/">
       <img src="img/logo.svg" alt="Логотип"/>
@@ -57,15 +58,19 @@ const Header = ({ onAddBtnClick, isFormShown, onSubmit }) => (
     <Button onClick={onAddBtnClick}>
       <Image src="img/icon-plus.svg" alt="Добавить"/> Создать
     </Button>
-    {isFormShown && <AddForm onSubmit={onSubmit}/>}
+    {isFormShown && <AddForm/>}
   </PageHeader>
 );
+
+Header.propTypes = {
+  onAddBtnClick: PropTypes.func.isRequired,
+  isFormShown: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   isFormShown: getFormState(state),
   fromTextEdit: getTextEditorData(state),
 });
-
 const mapDispatchToProps = (dispatch) => ({
   postIssue (issue) {
     dispatch(postIssueAction(issue));

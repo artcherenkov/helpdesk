@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import Header from '../../components/header/header';
 import Table from '../../components/table/table';
-// import AddForm from '../../components/add-form/add-form';
 import { getFormState } from '../../store/reducers/app-state/selectors';
 import { getTextEditorData } from '../../store/reducers/app-store/selectors';
 

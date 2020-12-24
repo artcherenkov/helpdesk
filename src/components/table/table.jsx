@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Row from '../row/row';
 import { getIssues } from '../../store/reducers/app-store/selectors';
 import { getLoadingState } from '../../store/reducers/app-state/selectors';
+import IssueProp from '../../types/issue.prop';
 
 const Table = ({ issues, isLoading }) => {
   // todo написать нормальные функции для сортировки
@@ -42,6 +44,11 @@ const Table = ({ issues, isLoading }) => {
       </div>
     </section>
   );
+};
+
+Table.propTypes = {
+  issues: PropTypes.arrayOf(IssueProp).isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({

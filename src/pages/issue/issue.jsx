@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { getIssues } from '../../store/reducers/app-store/selectors';
 import Header from '../../components/header/header';
+import issueProp from '../../types/issue.prop';
 
 const Container = styled.div`
   display: grid;
@@ -79,6 +81,11 @@ const Issue = (props) => {
       </Container>
     </>
   );
+};
+
+Issue.propTypes = {
+  issues: PropTypes.arrayOf(issueProp).isRequired,
+  match: PropTypes.any.isRequired,
 };
 
 const mapStateToProps = (state) => ({

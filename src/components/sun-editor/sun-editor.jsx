@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
@@ -33,6 +34,10 @@ const SunEditorComponent = ({ _ref }) => {
       <SunEditor setOptions={options} ref={editorRef} />
     </Wrapper>
   );
+};
+
+SunEditorComponent.propTypes = {
+  _ref: PropTypes.shape({ current: PropTypes.any }).isRequired,
 };
 
 export default SunEditorComponent;

@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import { IsExpired, Priority, Status } from '../../const';
 import { formatDates, getKeyByValue } from '../../utils/common';
+import issueProp from '../../types/issue.prop';
 
 const Row = ({ issue }) => {
   // todo обрезать длинные темы
@@ -42,6 +43,10 @@ const Row = ({ issue }) => {
       </td>
     </tr>
   );
+};
+
+Row.propTypes = {
+  issue: issueProp,
 };
 
 export default Row;
