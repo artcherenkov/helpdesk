@@ -143,7 +143,6 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
     postIssue(res);
   };
 
-  // todo отхлебнули классы приоритетов
   return (
     <Overlay>
       <Form onSubmit={onSubmit}>
