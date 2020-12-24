@@ -1,4 +1,4 @@
-import {ActionType} from "../../action";
+import { ActionType } from '../../action';
 
 const initialState = {
   issues: [],
@@ -10,14 +10,14 @@ const appStore = (state = initialState, action) => {
     case ActionType.ADD_ISSUE: {
       const _issues = state.issues.slice();
       _issues.push(action.payload);
-      return {...state, issues: _issues};
+      return { ...state, issues: _issues };
     }
     case ActionType.LOAD_ISSUES: {
-      return {...state, issues: action.payload};
+      return { ...state, issues: action.payload };
     }
     default:
       return state;
   }
 };
 
-export {appStore};
+export { appStore };

@@ -18,13 +18,12 @@ export const getRandomObjectItem = (obj) => (
   getRandomArrayItem(Object.keys(obj))
 );
 
-
 export const reverseObj = (obj) => (
   Object
     .entries(obj)
     .reduce((acc, entry) => {
       const [key, value] = entry;
-      acc = {...acc, [value]: key}
+      acc = { ...acc, [value]: key };
       return acc;
     }, {})
 );
@@ -40,8 +39,8 @@ export const formatDates = (pattern, ...dates) => (
 export const getFormData = (form) => {
   const formData = new FormData(form);
   let res = {};
-  for (let [key, value] of formData) {
-    res = {...res, [key]: value} ;
+  for (const [key, value] of formData) {
+    res = { ...res, [key]: value };
   }
   return res;
-}
+};

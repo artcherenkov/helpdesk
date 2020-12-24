@@ -1,12 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Row from '../row/row';
-import {getIssues} from '../../store/reducers/app-store/selectors';
-import {getLoadingState} from '../../store/reducers/app-state/selectors';
+import { getIssues } from '../../store/reducers/app-store/selectors';
+import { getLoadingState } from '../../store/reducers/app-state/selectors';
 
-const Table = ({issues, isLoading}) => {
+const Table = ({ issues, isLoading }) => {
   // todo написать нормальные функции для сортировки
   const sortedIssues = issues.sort((a, b) => moment(b.createdAt).unix() - moment(a.createdAt).unix());
 
@@ -42,12 +42,12 @@ const Table = ({issues, isLoading}) => {
       </div>
     </section>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   issues: getIssues(state),
-  isLoading: getLoadingState(state)
+  isLoading: getLoadingState(state),
 });
 
-export {Table};
+export { Table };
 export default connect(mapStateToProps, null)(Table);

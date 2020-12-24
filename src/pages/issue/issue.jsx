@@ -1,10 +1,9 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {getIssues} from '../../store/reducers/app-store/selectors';
+import { getIssues } from '../../store/reducers/app-store/selectors';
 import Header from '../../components/header/header';
-import AddForm from '../../components/add-form/add-form';
 
 const Container = styled.div`
   display: grid;
@@ -43,7 +42,7 @@ const IssueSection = styled.section`
     font-size: 16px;
     line-height: 22px;  
   }
-`
+`;
 const Aside = styled.aside`
   padding-right: 20px;
   
@@ -58,7 +57,9 @@ const Issue = (props) => {
 
   const textRef = useRef(null);
 
-  useEffect(() => textRef.current.innerHTML = issue.description);
+  useEffect(() => {
+    textRef.current.innerHTML = issue.description;
+  });
 
   return (
     <>
@@ -84,5 +85,5 @@ const mapStateToProps = (state) => ({
   issues: getIssues(state),
 });
 
-export {Issue};
+export { Issue };
 export default connect(mapStateToProps, null)(Issue);

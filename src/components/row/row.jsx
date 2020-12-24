@@ -1,18 +1,18 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import {IsExpired, Priority, Status} from '../../const';
-import {formatDates, getKeyByValue} from '../../utils/common';
+import { IsExpired, Priority, Status } from '../../const';
+import { formatDates, getKeyByValue } from '../../utils/common';
 
-const Row = ({issue}) => {
+const Row = ({ issue }) => {
   // todo обрезать длинные темы
 
-  const {status, priority, isExpired, createdAt, dueDate, actualDueDate} = issue;
+  const { status, priority, isExpired, createdAt, dueDate, actualDueDate } = issue;
   const isExpiredClassName = getKeyByValue(IsExpired, isExpired);
 
   // fDate – буква f значит "форматированный"
-  const [fDate, fDueDate, fActualDate] =  formatDates(`DD.MM.yyyy hh:mm`, moment(createdAt), moment(dueDate), moment(actualDueDate));
+  const [fDate, fDueDate, fActualDate] = formatDates(`DD.MM.yyyy hh:mm`, moment(createdAt), moment(dueDate), moment(actualDueDate));
 
   return (
     <tr className="table__row">
@@ -40,7 +40,7 @@ const Row = ({issue}) => {
       <td className={`table__cell table__cell_expired table__cell_expired_${isExpiredClassName.toLowerCase()}`}>
         <span>{isExpired}</span>
       </td>
-</tr>
+    </tr>
   );
 };
 

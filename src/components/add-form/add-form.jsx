@@ -1,13 +1,13 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {toggleForm as toggleFormAction, toggleLoading as toggleLoadingAction} from '../../store/action';
-import {generateIssue} from '../../mock/issue';
+import { toggleForm as toggleFormAction, toggleLoading as toggleLoadingAction } from '../../store/action';
+import { generateIssue } from '../../mock/issue';
 import SunEditorComponent from '../sun-editor/sun-editor';
-import {postIssue as postIssueAction} from '../../store/api-action';
-import {getLoadingState} from '../../store/reducers/app-state/selectors';
-import {getFormData} from '../../utils/common';
+import { postIssue as postIssueAction } from '../../store/api-action';
+import { getLoadingState } from '../../store/reducers/app-state/selectors';
+import { getFormData } from '../../utils/common';
 
 const Overlay = styled.div`
   position: absolute;
@@ -20,7 +20,7 @@ const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 90;
-`
+`;
 const Form = styled.form`
   background-color: white;
   padding: 25px 60px;
@@ -91,7 +91,7 @@ const InputWrapper = styled.div`
     color: #353535;
     
   }
-`
+`;
 const Label = styled.label`
   color: #999999;
   font-size: 12px;
@@ -127,9 +127,9 @@ const FormHeader = styled.div`
     margin: 0;
     cursor: pointer;
   }
-`
+`;
 
-const AddForm = ({postIssue, onCloseBtnClick, isLoading, toggleLoading}) => {
+const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
   const editorRef = useRef(null);
 
   const onSubmit = (evt) => {
@@ -137,7 +137,7 @@ const AddForm = ({postIssue, onCloseBtnClick, isLoading, toggleLoading}) => {
 
     let res = getFormData(evt.target);
     const randomIssue = generateIssue(true);
-    res = {...randomIssue, description: editorRef.current.editor.getContents(), ...res};
+    res = { ...randomIssue, description: editorRef.current.editor.getContents(), ...res };
     toggleLoading();
     postIssue(res);
   };
@@ -210,20 +210,20 @@ const AddForm = ({postIssue, onCloseBtnClick, isLoading, toggleLoading}) => {
 };
 
 const mapStateToProps = state => ({
-  isLoading: getLoadingState(state)
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  postIssue(issue) {
-    dispatch(postIssueAction(issue));
-  },
-  onCloseBtnClick() {
-    dispatch(toggleFormAction());
-  },
-  toggleLoading() {
-    dispatch(toggleLoadingAction());
-  }
+  isLoading: getLoadingState(state),
 });
 
-export {AddForm};
+const mapDispatchToProps = (dispatch) => ({
+  postIssue (issue) {
+    dispatch(postIssueAction(issue));
+  },
+  onCloseBtnClick () {
+    dispatch(toggleFormAction());
+  },
+  toggleLoading () {
+    dispatch(toggleLoadingAction());
+  },
+});
+
+export { AddForm };
 export default connect(mapStateToProps, mapDispatchToProps)(AddForm);

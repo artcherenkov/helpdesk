@@ -2,7 +2,7 @@ export const ActionType = {
   ADD_ISSUE: `ADD_ISSUE`,
   LOAD_ISSUES: `LOAD_ISSUES`,
   TOGGLE_FORM: `TOGGLE_FORM`,
-  TOGGLE_LOADING: `TOGGLE_LOADING`
+  TOGGLE_LOADING: `TOGGLE_LOADING`,
 };
 
 export const addIssue = (issue) => ({
