@@ -1,10 +1,10 @@
-import {combineReducers} from "redux";
-import {appStore} from "./app-store/app-store";
-import {appState} from "./app-state/app-state";
+import { combineReducers } from 'redux';
+import { appStore } from './app-store/app-store';
+import { appState } from './app-state/app-state';
 
 export const Namespace = {
   STORE: `STORE`,
-  STATE: `STATE`
+  STATE: `STATE`,
 };
 
 export default combineReducers({

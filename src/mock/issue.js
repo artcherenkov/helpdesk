@@ -1,6 +1,6 @@
 import moment from 'moment';
-import {getRandomDate, getRandomInt, getRandomArrayItem, getRandomObjectItem} from '../utils/common';
-import {IsExpired, Priority, Status} from '../const';
+import { getRandomDate, getRandomInt, getRandomArrayItem, getRandomObjectItem } from '../utils/common';
+import { IsExpired, Priority, Status } from '../const';
 import { loremIpsum } from 'react-lorem-ipsum';
 
 const BEGINDATE = moment(`2015-01-01`);
@@ -17,7 +17,7 @@ const topics = [
   `Работа диалога выбора поправок. Ошибка при последовательной отмене поправок.`,
   `Очистка папок Backup и Update после завершения установки`,
   `Редактор стандартных фрагментов`,
-  `Ввод формул в трансляторе стандартных фрагментов`
+  `Ввод формул в трансляторе стандартных фрагментов`,
 ];
 
 const people = [
@@ -37,7 +37,7 @@ const people = [
   `Бобби Друкс`,
   `Филипп Фейн`,
   `Стив Джобс`,
-  `Илон Маск`
+  `Илон Маск`,
 ];
 
 const types = [
@@ -55,7 +55,7 @@ const products = [
   `Samsung`,
   `Toyota`,
   `BMW`,
-  `Mercedes`
+  `Mercedes`,
 ];
 
 const departments = [
@@ -63,13 +63,13 @@ const departments = [
   `Бухгалтерия`,
   `Юридический отдел`,
   `Техническая поддержка`,
-  `Отдел продаж`
+  `Отдел продаж`,
 ];
 
 export const generateIssue = (dev = false, i = getRandomInt(0, 1000)) => {
   const date = getRandomDate(BEGINDATE, ENDDATE);
-  const dueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
-  const actualDueDate = getRandomDate(date, new moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
+  const dueDate = getRandomDate(date, moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
+  const actualDueDate = getRandomDate(date, moment(date).add(getRandomInt(0, 30), `days`)).toISOString();
 
   let issue = {
     topic: getRandomArrayItem(topics),
@@ -84,14 +84,14 @@ export const generateIssue = (dev = false, i = getRandomInt(0, 1000)) => {
     lastAnswer: getRandomArrayItem(people),
     priority: getRandomObjectItem(Priority),
     isExpired: actualDueDate > dueDate ? IsExpired.YES : IsExpired.NO,
-    description: loremIpsum()[0].slice(255)
-  }
+    description: loremIpsum()[0].slice(255),
+  };
 
   if (dev) {
     return issue;
   }
 
-  issue = {...issue, id: i, date}
+  issue = { ...issue, id: i, date };
   return issue;
 };
 
@@ -101,4 +101,4 @@ export const generateIssues = (count = 10) => {
     issues.push(generateIssue(i + 1));
   }
   return issues;
-}
+};

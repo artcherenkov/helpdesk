@@ -1,27 +1,24 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import Header from '../../components/header/header';
 import Table from '../../components/table/table';
-import AddForm from '../../components/add-form/add-form';
-import {getFormState} from '../../store/reducers/app-state/selectors';
+import { getFormState } from '../../store/reducers/app-state/selectors';
+import { getTextEditorData } from '../../store/reducers/app-store/selectors';
 
-const Main = ({isFormShown, onSubmit}) => {
-
+const Main = () => {
   return (
     <>
       <Header />
       <Table />
-      {isFormShown && <AddForm onSubmit={onSubmit}/>}
     </>
   );
-}
+};
 
 const mapStateToProps = (state) => ({
   isFormShown: getFormState(state),
-  fromTextEdit: state.STORE.html,
+  fromTextEdit: getTextEditorData(state),
 });
 
-export {Main};
+export { Main };
 export default connect(mapStateToProps, null)(Main);
-

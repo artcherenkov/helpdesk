@@ -1,15 +1,17 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
+import { getIssues } from '../../store/reducers/app-store/selectors';
 import Header from '../../components/header/header';
-import {connect} from 'react-redux';
-import {getIssues} from '../../store/reducers/app-store/selectors';
+import issueProp from '../../types/issue.prop';
 
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 450px;
   grid-column-gap: 30px;
 `;
-
 const Main = styled.main`
   min-width: 500px;
   padding-left: 20px;
@@ -22,7 +24,6 @@ const Main = styled.main`
     font-size: 30px;
   }
 `;
-
 const IssueSection = styled.section`
   & .issue__topic {
     text-align: center;
@@ -43,8 +44,7 @@ const IssueSection = styled.section`
     font-size: 16px;
     line-height: 22px;  
   }
-`
-
+`;
 const Aside = styled.aside`
   padding-right: 20px;
   
@@ -56,13 +56,12 @@ const Aside = styled.aside`
 const Issue = (props) => {
   const issueId = props.match.params.id;
   const issue = props.issues.find(_issue => _issue.id.toString() === issueId);
-  console.log(issue);
 
   const textRef = useRef(null);
 
   useEffect(() => {
     textRef.current.innerHTML = issue.description;
-  })
+  });
 
   return (
     <>
@@ -84,9 +83,14 @@ const Issue = (props) => {
   );
 };
 
+Issue.propTypes = {
+  issues: PropTypes.arrayOf(issueProp).isRequired,
+  match: PropTypes.any.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   issues: getIssues(state),
 });
 
-export {Issue};
+export { Issue };
 export default connect(mapStateToProps, null)(Issue);
