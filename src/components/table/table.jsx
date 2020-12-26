@@ -1,14 +1,17 @@
 import React from 'react';
-import {connect} from 'react-redux';
-
-import Row from '../row/row';
-import {getIssues} from '../../store/reducers/app-store/selectors';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
-const Table = ({issues}) => {
-  const sortedIssues = issues.sort((a, b) => {
-    return moment(b.createdAt).unix() - moment(a.createdAt).unix();
-  });
+import Row from '../row/row';
+import { getIssues } from '../../store/reducers/app-store/selectors';
+import { getLoadingState } from '../../store/reducers/app-state/selectors';
+import IssueProp from '../../types/issue.prop';
+
+const Table = ({ issues, isLoading }) => {
+  // todo написать нормальные функции для сортировки
+  const sortedIssues = issues.sort((a, b) => moment(b.createdAt).unix() - moment(a.createdAt).unix());
+
   return (
     <section className="table-section">
       <div className="table__wrapper">
@@ -32,6 +35,7 @@ const Table = ({issues}) => {
             </tr>
           </thead>
           <tbody className="table__body">
+            {isLoading && <tr><td>Загрузка...</td></tr>}
             {sortedIssues.map((issue, i) => (
               <Row key={`issue-${i}`} issue={issue} />
             ))}
@@ -40,11 +44,17 @@ const Table = ({issues}) => {
       </div>
     </section>
   );
-}
+};
+
+Table.propTypes = {
+  issues: PropTypes.arrayOf(IssueProp).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => ({
-  issues: getIssues(state)
+  issues: getIssues(state),
+  isLoading: getLoadingState(state),
 });
 
-export {Table};
+export { Table };
 export default connect(mapStateToProps, null)(Table);
