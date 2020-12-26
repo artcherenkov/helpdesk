@@ -3,6 +3,12 @@
   font-family: Helvetica, sans-serif;
 }
 
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   max-width: 1200px;
   margin: 0 auto;
@@ -68,6 +74,9 @@ body {
 .table__cell_client {
   min-width: 120px;
 }
+.table__cell_product {
+  min-width: 120px;
+}
 .table__cell_responsible {
   min-width: 120px;
 }
@@ -88,9 +97,6 @@ body {
   color: #c10b00;
 }
 
-.table__cell_priority {
-
-}
 .table__cell_priority_normal {
   font-weight: bold;
   color: #009aed;
@@ -101,16 +107,16 @@ body {
 }
 
 .table__cell_expired {
-  min-width: 90px;
+  min-width: 120px;
   text-align: center;
 }
 .table__cell_expired_no span {
   display: block;
   padding: 5px;
-  background-color: #6fff6f;
+  background-color: #a7ffa7;
 }
 .table__cell_expired_yes span {
   display: block;
   padding: 5px;
-  background-color: #ff6f6f;
+  background-color: #ffacac;
 }

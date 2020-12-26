@@ -15,7 +15,7 @@ export const getRandomArrayItem = (arr) => (
 );
 
 export const getRandomObjectItem = (obj) => (
-  getRandomArrayItem(Object.keys(obj))
+  getRandomArrayItem(Object.values(obj))
 );
 
 export const reverseObj = (obj) => (
