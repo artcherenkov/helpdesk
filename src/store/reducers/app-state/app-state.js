@@ -3,6 +3,7 @@ import { ActionType } from '../../action';
 const initialState = {
   isFormShown: false,
   isLoading: true,
+  filters: {},
 };
 
 const appState = (state = initialState, action) => {
@@ -12,6 +13,9 @@ const appState = (state = initialState, action) => {
     }
     case ActionType.TOGGLE_LOADING: {
       return { ...state, isLoading: !state.isLoading };
+    }
+    case ActionType.SET_FILTERS: {
+      return { ...state, filters: action.payload };
     }
     default:
       return state;

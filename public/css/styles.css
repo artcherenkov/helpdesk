@@ -16,8 +16,7 @@ body {
 }
 
 .table-section {
-  margin: 20px auto 0;
-   padding: 0 10px;
+  margin: 0 auto;
   max-width: 1200px;
 }
 
@@ -119,4 +118,18 @@ body {
   display: block;
   padding: 5px;
   background-color: #ffacac;
+}
+
+.sun-editor .se-svg, .sun-editor button > svg {
+  width: 13px !important;
+  height: 13px !important;
+}
+
+.sun-editor .se-btn {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.se-btn .se-btn-select .se-btn-tool-size .se-tooltip {
+  width: 50px !important;
 }

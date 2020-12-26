@@ -92,6 +92,8 @@ const InfoList = styled.ul`
   }
 `;
 
+// todo на странице Issue не хватает заказчика в разделе "О заявке"
+
 /**
  * Check if string is valid date.
  * @param string

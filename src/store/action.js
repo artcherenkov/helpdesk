@@ -3,6 +3,7 @@ export const ActionType = {
   LOAD_ISSUES: `LOAD_ISSUES`,
   TOGGLE_FORM: `TOGGLE_FORM`,
   TOGGLE_LOADING: `TOGGLE_LOADING`,
+  SET_FILTERS: `SET_FILTERS`,
 };
 
 export const addIssue = (issue) => ({
@@ -21,4 +22,9 @@ export const toggleForm = () => ({
 
 export const toggleLoading = () => ({
   type: ActionType.TOGGLE_LOADING,
+});
+
+export const setFilters = (filters) => ({
+  type: ActionType.SET_FILTERS,
+  payload: filters
 });
