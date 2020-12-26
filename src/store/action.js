@@ -26,5 +26,5 @@ export const toggleLoading = () => ({
 
 export const setFilters = (filters) => ({
   type: ActionType.SET_FILTERS,
-  payload: filters
+  payload: filters,
 });
