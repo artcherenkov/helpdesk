@@ -5,12 +5,17 @@ import moment from 'moment';
 
 import Row from '../row/row';
 import { getIssues } from '../../store/reducers/app-store/selectors';
-import { getLoadingState } from '../../store/reducers/app-state/selectors';
+import { getFilters, getLoadingState } from '../../store/reducers/app-state/selectors';
 import IssueProp from '../../types/issue.prop';
 
-const Table = ({ issues, isLoading }) => {
-  // todo написать нормальные функции для сортировки
-  const sortedIssues = issues.sort((a, b) => moment(b.createdAt).unix() - moment(a.createdAt).unix());
+const Table = ({ issues, isLoading, filters }) => {
+  const filteredIssues = issues
+    .sort((a, b) => moment(b.createdAt).unix() - moment(a.createdAt).unix())
+    .filter((issue) => {
+      const filterValues = Object.values(filters).filter((value) => value !== ``);
+      const issueValues = Object.values(issue);
+      return filterValues.every(value => issueValues.includes(value));
+    });
 
   return (
     <section className="table-section">
@@ -36,7 +41,7 @@ const Table = ({ issues, isLoading }) => {
           </thead>
           <tbody className="table__body">
             {isLoading && <tr><td>Загрузка...</td></tr>}
-            {sortedIssues.map((issue, i) => (
+            {filteredIssues && filteredIssues.map((issue, i) => (
               <Row key={`issue-${i}`} issue={issue} />
             ))}
           </tbody>
@@ -49,11 +54,13 @@ const Table = ({ issues, isLoading }) => {
 Table.propTypes = {
   issues: PropTypes.arrayOf(IssueProp).isRequired,
   isLoading: PropTypes.bool.isRequired,
+  filters: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   issues: getIssues(state),
   isLoading: getLoadingState(state),
+  filters: getFilters(state),
 });
 
 export { Table };
