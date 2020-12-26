@@ -1,4 +1,4 @@
-import { loadIssues, toggleForm, toggleLoading } from './action';
+import { addIssue, loadIssues, toggleForm, toggleLoading } from './action';
 
 export const fetchIssues = () => (dispatch, _getState, api) => (
   api.get(`/issues`)
@@ -7,8 +7,8 @@ export const fetchIssues = () => (dispatch, _getState, api) => (
 );
 
 export const postIssue = (issue) => (dispatch, _getState, api) => (
-  api.post(`/issues`, { data: issue })
-    .then(({ data }) => dispatch(loadIssues(data)))
+  api.post(`/issues`, issue)
+    .then(({ data }) => dispatch(addIssue(data)))
     .then(() => {
       dispatch(toggleForm());
       dispatch(toggleLoading());

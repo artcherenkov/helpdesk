@@ -33,11 +33,11 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
         <InputsList>
           <InputWrapper className="double">
             <Label htmlFor="topic">Тема заявки</Label>
-            <Input type="text" name="topic" id="topic"/>
+            <Input type="text" name="topic" id="topic" defaultValue="Новая заявка"/>
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="type">Тип заявки</Label>
-            <Select name="type" id="type">
+            <Select name="type" id="type" defaultValue="Инцидент">
               <option value="Не выбрано">Не выбрано</option>
               <option value="Инцидент">Инцидент</option>
               <option value="Доработка">Доработка</option>
@@ -47,7 +47,7 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="product">Продукт</Label>
-            <Select name="product" id="product">
+            <Select name="product" id="product" defaultValue="АВС">
               <option value="Не выбрано">Не выбрано</option>
               <option value="BIM-плагины">BIM-плагины</option>
               <option value="WEB">WEB</option>
@@ -61,7 +61,7 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="department">Отдел</Label>
-            <Select name="department" id="department">
+            <Select name="department" id="department" defaultValue="Разработчики">
               <option value="Не выбрано">Не выбрано</option>
               <option value="Отдел продаж">Отдел продаж</option>
               <option value="Техническая поддержка">Техническая поддержка</option>

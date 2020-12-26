@@ -1,21 +1,25 @@
 * {
   box-sizing: border-box;
-  font-family: Helvetica;
+  font-family: Helvetica, sans-serif;
 }
 
 body {
-  margin: 0;
+  max-width: 1200px;
+  margin: 0 auto;
   background-color: #f1f1f1;
 }
 
 .table-section {
-  margin-top: 20px;
+  margin: 20px auto 0;
+   padding: 0 10px;
+  max-width: 1200px;
 }
 
 .table__wrapper {
   overflow: auto;
   max-height: 600px;
   padding-bottom: 10px;
+  border-radius: 5px;
 }
 
 .table {

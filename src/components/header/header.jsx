@@ -13,10 +13,10 @@ import { getTextEditorData } from '../../store/reducers/app-store/selectors';
 const PageHeader = styled.header`
   height: 50px;
   background-color: #e7e7e7;
-  border: 1px solid #104673;
   display: flex;
   padding-left: 20px;
   align-items: center;
+  border-radius: 5px;
 `;
 const Button = styled.button`
   background-color: #2196f3;
