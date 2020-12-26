@@ -28,5 +28,4 @@ ReactDOM.render(
   document.getElementById(`root`),
 );
 
-// todo не приходят ошибки из бд и вообще с сервера
 // todo нет безопасности

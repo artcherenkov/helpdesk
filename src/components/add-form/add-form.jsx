@@ -23,6 +23,7 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
     postIssue(res);
   };
 
+  // todo добавить перечисления для каждого селекта и перечисление селектов
   return (
     <Overlay>
       <Form onSubmit={onSubmit}>
@@ -33,7 +34,7 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
         <InputsList>
           <InputWrapper className="double">
             <Label htmlFor="topic">Тема заявки</Label>
-            <Input type="text" name="topic" id="topic" defaultValue="Новая заявка"/>
+            <Input type="text" name="topic" id="topic" defaultValue="Новая заявка" />
           </InputWrapper>
           <InputWrapper>
             <Label htmlFor="type">Тип заявки</Label>
@@ -64,7 +65,7 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
             <Select name="department" id="department" defaultValue="Разработчики">
               <option value="Не выбрано">Не выбрано</option>
               <option value="Отдел продаж">Отдел продаж</option>
-              <option value="Техническая поддержка">Техническая поддержка</option>
+              <option value="Техподдержка">Техподдержка</option>
               <option value="Разработчики">Разработчики</option>
               <option value="Бухгалтерия">Бухгалтерия</option>
             </Select>

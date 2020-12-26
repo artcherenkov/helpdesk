@@ -49,11 +49,22 @@ const Image = styled.img`
   width: 15px;
   height: 15px;
 `;
+const Logo = styled.img`
+  cursor: pointer;
+  
+  &:hover {
+    opacity: .6;
+  }
+  
+  &:active {
+    opacity: .3;
+  }
+`;
 
 const Header = ({ onAddBtnClick, isFormShown }) => (
   <PageHeader>
     <Link to="/">
-      <img src="img/logo.svg" alt="Логотип"/>
+      <Logo src="img/logo.svg" alt="Логотип"/>
     </Link>
     <Button onClick={onAddBtnClick}>
       <Image src="img/icon-plus.svg" alt="Добавить"/> Создать

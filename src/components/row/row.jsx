@@ -12,6 +12,7 @@ const Row = ({ issue }) => {
   const { status, priority, isExpired, createdAt, dueDate, actualDueDate } = issue;
   const isExpiredClassName = getKeyByValue(IsExpired, isExpired);
   const priorityClassName = getKeyByValue(Priority, priority);
+  const statusClassName = getKeyByValue(Status, status);
 
   // fDate – буква f значит "форматированный"
   const [fDate, fDueDate, fActualDate] = formatDates(`DD.MM.yyyy hh:mm`, moment(createdAt), moment(dueDate), moment(actualDueDate));
@@ -27,11 +28,11 @@ const Row = ({ issue }) => {
       </td>
       <td className="table__cell table__cell_client">{issue.client}</td>
       <td className="table__cell">{issue.type}</td>
-      <td className="table__cell">{issue.product}</td>
+      <td className="table__cell table__cell_product">{issue.product}</td>
       <td className="table__cell">{issue.department}</td>
       <td className="table__cell table__cell_responsible">{issue.responsible}</td>
-      <td className={`table__cell table__cell_status table__cell_status_${status.toLowerCase()}`}>
-        {Status[status]}
+      <td className={`table__cell table__cell_status table__cell_status_${statusClassName}`}>
+        {status}
       </td>
       <td className="table__cell">{fDueDate}</td>
       <td className="table__cell">{fActualDate}</td>
