@@ -6,7 +6,13 @@ import { getFilters } from '../../store/reducers/app-state/selectors';
 import { setFilters as setFiltersAction } from '../../store/action';
 import { FILTERS } from '../../const';
 
-import { Container, SearchBar, SelectWrapper, ResetButton } from './components';
+import { Container, SearchBar, SelectWrapper, ResetButton, OptionsButton } from './components';
+
+const checkFilters = (filters) => (
+  Object
+    .values(filters)
+    .some(filter => Boolean(filter))
+);
 
 const TableControls = ({ filters, setFilters }) => {
   const handleChange = select => (evt) => {
@@ -22,6 +28,7 @@ const TableControls = ({ filters, setFilters }) => {
   return (
     <Container>
       <form action="">
+        <OptionsButton type="button" />
         <SearchBar>
           <input type="text"/>
         </SearchBar>
@@ -35,7 +42,7 @@ const TableControls = ({ filters, setFilters }) => {
           </SelectWrapper>
         ))}
 
-        <ResetButton type="reset" onClick={() => setFilters({})}>Сбросить</ResetButton>
+        <ResetButton type="reset" onClick={() => setFilters({})} disabled={!checkFilters(filters)}>Сбросить</ResetButton>
       </form>
     </Container>
   );
