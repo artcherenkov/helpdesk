@@ -8,11 +8,11 @@ const Wrapper = styled.div`
   margin-bottom: 40px;
 `;
 
-const SunEditorComponent = ({ _ref }) => {
+const SunEditorComponent = ({ _ref, contents }) => {
   const editorRef = _ref;
 
   const options = {
-    height: 300,
+    height: 400,
     buttonList: [
       [`undo`, `redo`],
       [`bold`, `underline`, `italic`],
@@ -31,13 +31,14 @@ const SunEditorComponent = ({ _ref }) => {
 
   return (
     <Wrapper>
-      <SunEditor setOptions={options} ref={editorRef} />
+      <SunEditor setOptions={options} ref={editorRef} setContents={contents} />
     </Wrapper>
   );
 };
 
 SunEditorComponent.propTypes = {
   _ref: PropTypes.shape({ current: PropTypes.any }).isRequired,
+  contents: PropTypes.string,
 };
 
 export default SunEditorComponent;

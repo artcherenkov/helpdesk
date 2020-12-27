@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { getFilters } from '../../store/reducers/app-state/selectors';
 import { setFilters as setFiltersAction } from '../../store/action';
-import { FILTERS } from '../../const';
+import { SELECTS } from '../../const';
 
 import { Container, SearchBar, SelectWrapper, ResetButton, OptionsButton } from './components';
 
@@ -32,16 +32,17 @@ const TableControls = ({ filters, setFilters }) => {
         <SearchBar>
           <input type="text"/>
         </SearchBar>
-        {FILTERS.map(filter => (
-          <SelectWrapper key={`select-wrapper-${filter.name}`}>
-            <select name={filter.name} id={filter.name} defaultValue={filter.options[0]} onChange={handleChange(filter.name)}>
-              {filter.options.map((option, i) => (
-                <option value={option} disabled={i === 0} key={`${filter.name}-option-${i}`}>{option}</option>
-              ))}
-            </select>
-          </SelectWrapper>
-        ))}
-
+        {SELECTS
+          .filter(select => select.name !== `type`)
+          .map(filter => (
+            <SelectWrapper key={`select-wrapper-${filter.name}`}>
+              <select name={filter.name} id={filter.name} defaultValue={filter.options[0]} onChange={handleChange(filter.name)}>
+                {filter.options.map((option, i) => (
+                  <option value={option} disabled={i === 0} key={`${filter.name}-option-${i}`}>{option}</option>
+                ))}
+              </select>
+            </SelectWrapper>
+          ))}
         <ResetButton type="reset" onClick={() => setFilters({})} disabled={!checkFilters(filters)}>Сбросить</ResetButton>
       </form>
     </Container>

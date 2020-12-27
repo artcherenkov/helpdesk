@@ -15,7 +15,13 @@ export const Overlay = styled.div`
 export const Form = styled.form`
   background-color: white;
   padding: 25px 60px;
-  width: 800px;
+  width: 70%;
+  height: 90vh;
+  min-width: 600px;
+  min-height: 600px;
+  max-height: 800px;
+  max-width: 800px;
+  overflow: scroll;
   top: 100px;
   left: calc(50% - 200px);
   border-radius: 5px;
@@ -64,7 +70,6 @@ export const InputsList = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 40px;
-  margin-bottom: 12px;
 `;
 export const InputWrapper = styled.div`
   display: flex;
@@ -118,5 +123,22 @@ export const FormHeader = styled.div`
     padding: 0;
     margin: 0;
     cursor: pointer;
+  }
+`;
+export const CloseButton = styled.button`
+  margin: 0; 
+  padding: 0;
+  border: none;
+  width: 20px;
+  height: 20px;
+  background: white url("./img/icon-close.svg") center center no-repeat;
+  background-size: 15px 15px;
+  
+  &:hover {
+    opacity: .6;
+  }
+  
+  &:active {
+    opacity: .3;
   }
 `;

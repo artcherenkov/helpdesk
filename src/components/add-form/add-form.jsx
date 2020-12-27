@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -7,83 +7,61 @@ import { generateIssue } from '../../mock/issue';
 import SunEditorComponent from '../sun-editor/sun-editor';
 import { postIssue as postIssueAction } from '../../store/api-action';
 import { getLoadingState } from '../../store/reducers/app-state/selectors';
-import { getFormData } from '../../utils/common';
-import { FormHeader, Form, Input, InputsList, InputWrapper, Label, Overlay, Select, Button } from './components';
+import { FormHeader, Form, Input, InputsList, InputWrapper, Label, Overlay, Select, Button, CloseButton } from './components';
+import { DEFAULT_TEXTEDIT_VALUE, SELECTS } from '../../const';
+
+const initialData = {
+  topic: generateIssue().topic,
+  type: `Инцидент`,
+  product: `АВС`,
+  department: `Разработчики`,
+  priority: `Низкий`,
+  description: DEFAULT_TEXTEDIT_VALUE,
+};
 
 const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
+  const [formData, setFormData] = useState(initialData);
+
   const editorRef = useRef(null);
 
+  const onChange = (evt) => setFormData({ ...formData, [evt.target.name]: evt.target.value });
   const onSubmit = (evt) => {
     evt.preventDefault();
+    setFormData({ ...formData, description: editorRef.current.editor.getContents() });
 
-    let res = getFormData(evt.target);
-    const randomIssue = generateIssue(true);
-    res = { ...randomIssue, description: editorRef.current.editor.getContents(), ...res };
     toggleLoading();
-    postIssue(res);
+    postIssue({ ...generateIssue(true), ...formData });
   };
 
-  // todo добавить перечисления для каждого селекта и перечисление селектов
   return (
     <Overlay>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} onChange={onChange}>
         <FormHeader>
           <h2>Добавление заявки</h2>
-          <button onClick={onCloseBtnClick}>Х</button>
+          <CloseButton onClick={onCloseBtnClick} />
         </FormHeader>
         <InputsList>
           <InputWrapper className="double">
             <Label htmlFor="topic">Тема заявки</Label>
-            <Input type="text" name="topic" id="topic" defaultValue="Новая заявка" />
+            <Input type="text" name="topic" id="topic" defaultValue={formData.topic}/>
           </InputWrapper>
-          <InputWrapper>
-            <Label htmlFor="type">Тип заявки</Label>
-            <Select name="type" id="type" defaultValue="Инцидент">
-              <option value="Не выбрано">Не выбрано</option>
-              <option value="Инцидент">Инцидент</option>
-              <option value="Доработка">Доработка</option>
-              <option value="Запрос">Запрос</option>
-              <option value="Обращение">Обращение</option>
-            </Select>
-          </InputWrapper>
-          <InputWrapper>
-            <Label htmlFor="product">Продукт</Label>
-            <Select name="product" id="product" defaultValue="АВС">
-              <option value="Не выбрано">Не выбрано</option>
-              <option value="BIM-плагины">BIM-плагины</option>
-              <option value="WEB">WEB</option>
-              <option value="АВС">АВС</option>
-              <option value="АВС SNB Compiler">АВС SNB Compiler</option>
-              <option value="АВС-KZ">АВС-KZ</option>
-              <option value="АВС-RU">АВС-RU</option>
-              <option value="АВС_UZ">АВС_UZ</option>
-              <option value="АВС-ПИР">АВС-ПИР</option>
-            </Select>
-          </InputWrapper>
-          <InputWrapper>
-            <Label htmlFor="department">Отдел</Label>
-            <Select name="department" id="department" defaultValue="Разработчики">
-              <option value="Не выбрано">Не выбрано</option>
-              <option value="Отдел продаж">Отдел продаж</option>
-              <option value="Техподдержка">Техподдержка</option>
-              <option value="Разработчики">Разработчики</option>
-              <option value="Бухгалтерия">Бухгалтерия</option>
-            </Select>
-          </InputWrapper>
-          <InputWrapper>
-            <Label htmlFor="priority">Приоритет</Label>
-            <Select name="priority" id="priority">
-              <option value="Низкий">Низкий</option>
-              <option value="Нормальный">Нормальный</option>
-              <option value="Высокий">Высокий</option>
-            </Select>
-          </InputWrapper>
+          {SELECTS
+            .filter(select => select.name !== `status`)
+            .map(filter => (
+              <InputWrapper key={`select-wrapper-${filter.name}`}>
+                <Label htmlFor={filter.name}>{filter.options[0]}</Label>
+                <Select name={filter.name} id={filter.name} defaultValue={formData[filter.name]}>
+                  {filter.options.map((option, i) => (
+                    <option value={option} disabled={i === 0} key={`${filter.name}-option-${i}`}>{option}</option>
+                  ))}
+                </Select>
+              </InputWrapper>
+            ))}
         </InputsList>
         <InputWrapper>
-          <p className="editor-label">Опишите вашу вашу проблему подробнее</p>
-          <SunEditorComponent _ref={editorRef}/>
+          <p className="editor-label">Опиcание проблемы</p>
+          <SunEditorComponent _ref={editorRef} contents={formData.description} />
         </InputWrapper>
-
         <Button type="submit" disabled={isLoading}>{isLoading ? `Сохранение...` : `Добавить заявку`}</Button>
       </Form>
     </Overlay>
