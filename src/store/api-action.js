@@ -13,7 +13,6 @@ export const fetchIssues = () => (dispatch, _getState, api) => (
   api.get(`/issues`)
     .then(({ data }) => dispatch(loadIssues(data)))
     .catch((err) => console.log(err))
-    .finally(() => dispatch(toggleLoading()))
 );
 
 export const postIssue = (issue) => (dispatch, _getState, api) => (
@@ -37,7 +36,6 @@ export const deleteIssue = (id) => (dispatch, _getState, api) => (
     .then(() => dispatch(deleteIssueSyncAction(id)))
     .then(() => browserHistory.push(`/`))
     .catch((err) => console.log(`error: `, err))
-    .finally(() => dispatch(toggleLoading()))
 );
 
 export const fetchOrganizations = () => (dispatch, _getState, api) => (

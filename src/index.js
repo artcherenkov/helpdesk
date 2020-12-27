@@ -9,6 +9,7 @@ import App from './components/app/app';
 import rootReducer from './store/reducers/root-reducer';
 import { fetchIssues, fetchOrganizations } from './store/api-action';
 import { createAPI } from './services/api';
+import { toggleLoading } from './store/action';
 
 const api = createAPI();
 
@@ -19,8 +20,11 @@ const store = createStore(
   ),
 );
 
-store.dispatch(fetchIssues());
-store.dispatch(fetchOrganizations());
+Promise.all([
+  store.dispatch(fetchIssues()),
+  store.dispatch(fetchOrganizations()),
+])
+  .then(() => store.dispatch(toggleLoading()));
 
 ReactDOM.render(
   <Provider store={store}>
