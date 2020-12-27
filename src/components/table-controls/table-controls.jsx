@@ -4,9 +4,15 @@ import { connect } from 'react-redux';
 
 import { getFilters } from '../../store/reducers/app-state/selectors';
 import { setFilters as setFiltersAction } from '../../store/action';
-import { FILTERS } from '../../const';
+import { SELECTS } from '../../const';
 
-import { Container, SearchBar, SelectWrapper, ResetButton } from './components';
+import { Container, SearchBar, SelectWrapper, ResetButton, OptionsButton } from './components';
+
+const checkFilters = (filters) => (
+  Object
+    .values(filters)
+    .some(filter => Boolean(filter))
+);
 
 const TableControls = ({ filters, setFilters }) => {
   const handleChange = select => (evt) => {
@@ -22,20 +28,22 @@ const TableControls = ({ filters, setFilters }) => {
   return (
     <Container>
       <form action="">
+        <OptionsButton type="button" />
         <SearchBar>
           <input type="text"/>
         </SearchBar>
-        {FILTERS.map(filter => (
-          <SelectWrapper key={`select-wrapper-${filter.name}`}>
-            <select name={filter.name} id={filter.name} defaultValue={filter.options[0]} onChange={handleChange(filter.name)}>
-              {filter.options.map((option, i) => (
-                <option value={option} disabled={i === 0} key={`${filter.name}-option-${i}`}>{option}</option>
-              ))}
-            </select>
-          </SelectWrapper>
-        ))}
-
-        <ResetButton type="reset" onClick={() => setFilters({})}>Сбросить</ResetButton>
+        {SELECTS
+          .filter(select => select.name !== `type`)
+          .map(filter => (
+            <SelectWrapper key={`select-wrapper-${filter.name}`}>
+              <select name={filter.name} id={filter.name} defaultValue={filter.options[0]} onChange={handleChange(filter.name)}>
+                {filter.options.map((option, i) => (
+                  <option value={option} disabled={i === 0} key={`${filter.name}-option-${i}`}>{option}</option>
+                ))}
+              </select>
+            </SelectWrapper>
+          ))}
+        <ResetButton type="reset" onClick={() => setFilters({})} disabled={!checkFilters(filters)}>Сбросить</ResetButton>
       </form>
     </Container>
   );

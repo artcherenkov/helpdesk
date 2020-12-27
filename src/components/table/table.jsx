@@ -4,11 +4,18 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Row from '../row/row';
-import { getIssues } from '../../store/reducers/app-store/selectors';
+import { getIssues, getOrganizations } from '../../store/reducers/app-store/selectors';
 import { getFilters, getLoadingState } from '../../store/reducers/app-state/selectors';
 import IssueProp from '../../types/issue.prop';
 
-const Table = ({ issues, isLoading, filters }) => {
+const getOrganizationId = (organizations, issue) => {
+  if (issue.organizationName) {
+    return organizations.find(org => org.name === issue.organizationName)[`org-id`];
+  }
+  return null;
+};
+
+const Table = ({ issues, isLoading, filters, organizations }) => {
   const filteredIssues = issues
     .sort((a, b) => moment(b.createdAt).unix() - moment(a.createdAt).unix())
     .filter((issue) => {
@@ -42,7 +49,7 @@ const Table = ({ issues, isLoading, filters }) => {
           <tbody className="table__body">
             {isLoading && <tr><td>Загрузка...</td></tr>}
             {filteredIssues && filteredIssues.map((issue, i) => (
-              <Row key={`issue-${i}`} issue={issue} />
+              <Row key={`issue-${i}`} issue={issue} organizationId={getOrganizationId(organizations, issue)} />
             ))}
           </tbody>
         </table>
@@ -55,12 +62,14 @@ Table.propTypes = {
   issues: PropTypes.arrayOf(IssueProp).isRequired,
   isLoading: PropTypes.bool.isRequired,
   filters: PropTypes.object.isRequired,
+  organizations: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   issues: getIssues(state),
   isLoading: getLoadingState(state),
   filters: getFilters(state),
+  organizations: getOrganizations(state),
 });
 
 export { Table };

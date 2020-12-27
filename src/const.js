@@ -37,15 +37,18 @@ export const IssueModel = {
   IS_EXPIRED: `Просрочен`,
 };
 
-export const FILTERS = [
+export const DEFAULT_TEXTEDIT_VALUE = `Опишите здесь свою проблему.`;
+
+export const SELECTS = [
   {
-    name: `department`,
+    name: `type`,
     options: [
-      `Отдел`,
+      `Тип`,
       `Не выбрано`,
-      `Отдел продаж`,
-      `Техподдержка`,
-      `Разработчики`,
+      `Инцидент`,
+      `Доработка`,
+      `Запрос`,
+      `Обращение`,
     ],
   },
   {
@@ -64,6 +67,16 @@ export const FILTERS = [
     ],
   },
   {
+    name: `department`,
+    options: [
+      `Отдел`,
+      `Не выбрано`,
+      `Отдел продаж`,
+      `Техподдержка`,
+      `Разработчики`,
+    ],
+  },
+  {
     name: `status`,
     options: [
       `Статус`,
@@ -71,6 +84,15 @@ export const FILTERS = [
       `Открыто`,
       `Закрыто`,
       `Отклонено`,
+    ],
+  },
+  {
+    name: `priority`,
+    options: [
+      `Приоритет`,
+      `Низкий`,
+      `Нормальный`,
+      `Высокий`,
     ],
   },
 ];

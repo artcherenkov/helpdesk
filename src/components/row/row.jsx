@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
@@ -6,7 +8,7 @@ import { IsExpired, Priority, Status } from '../../const';
 import { formatDates, getKeyByValue } from '../../utils/common';
 import issueProp from '../../types/issue.prop';
 
-const Row = ({ issue }) => {
+const Row = ({ issue, organizationId }) => {
   // todo обрезать длинные темы
 
   const { status, priority, isExpired, createdAt, dueDate, actualDueDate } = issue;
@@ -26,7 +28,10 @@ const Row = ({ issue }) => {
           {issue.topic}
         </Link>
       </td>
-      <td className="table__cell table__cell_client">{issue.client}</td>
+      <td className="table__cell table__cell_client">
+        {issue.client}
+        {issue.organizationName && <span> / <Link to={`organizations/${organizationId}`}>{issue.organizationName}</Link></span>}
+      </td>
       <td className="table__cell">{issue.type}</td>
       <td className="table__cell table__cell_product">{issue.product}</td>
       <td className="table__cell">{issue.department}</td>
@@ -49,6 +54,7 @@ const Row = ({ issue }) => {
 
 Row.propTypes = {
   issue: issueProp,
+  organizationId: PropTypes.number,
 };
 
 export default Row;

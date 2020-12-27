@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Header from '../../components/header/header';
 import Table from '../../components/table/table';
 import { getFormState } from '../../store/reducers/app-state/selectors';
-import { getTextEditorData } from '../../store/reducers/app-store/selectors';
+import { getOrganizations, getTextEditorData } from '../../store/reducers/app-store/selectors';
 import TableControls from '../../components/table-controls/table-controls';
 
 const Container = styled.div`
@@ -25,6 +25,7 @@ const Main = () => {
 const mapStateToProps = (state) => ({
   isFormShown: getFormState(state),
   fromTextEdit: getTextEditorData(state),
+  organizations: getOrganizations(state),
 });
 
 export { Main };

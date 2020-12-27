@@ -7,7 +7,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import App from './components/app/app';
 import rootReducer from './store/reducers/root-reducer';
-import { fetchIssues } from './store/api-action';
+import { fetchIssues, fetchOrganizations } from './store/api-action';
 import { createAPI } from './services/api';
 
 const api = createAPI();
@@ -20,6 +20,7 @@ const store = createStore(
 );
 
 store.dispatch(fetchIssues());
+store.dispatch(fetchOrganizations());
 
 ReactDOM.render(
   <Provider store={store}>

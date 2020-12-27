@@ -4,12 +4,13 @@ export const Container = styled.div`
   margin-top: 24px;
   width: 100%;
   height: 50px;
-  padding: 11px 10px;
+  padding: 11px 0;
   border-radius: 5px;
   
   & form {
     display: flex;
     height: 100%;
+    align-items: center;
   
     & *:not(:last-child) {
       margin-right: 15px;
@@ -78,11 +79,43 @@ export const ResetButton = styled.button`
   font-size: 14px;
   margin-left: 50px;
   cursor: pointer;
-  transition: background-color 100ms ease-in, color 100ms ease-in;
+  transition: background-color 100ms ease-in, 
+              color 100ms ease-in, 
+              opacity 100ms ease-in, 
+              border 100ms ease-in;
   
   &:hover {
     background-color: #ff2f2f;
     color: #f1f1f1;
+  }
+  
+  &:active {
+    opacity: .3;
+  }
+  
+  &:disabled {
+    opacity: .3;
+    color: black;
+    border: 2px solid rgba(16, 70, 115, 0.3);
+    background-color: white;
+    cursor: not-allowed;
+  } 
+`;
+export const OptionsButton = styled.button`
+  border: none;
+  margin: 0;
+  padding: 5px;
+  width: 23px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(16, 70, 115, 0.3);
+  
+  background: white url("./img/icon-options.svg") 3px center no-repeat;
+  background-size: 15px 15px;
+  cursor: pointer;
+  
+  &:hover {
+    border: 1px solid rgba(16, 70, 115, 1);
   }
   
   &:active {
