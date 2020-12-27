@@ -13,6 +13,7 @@ export const Overlay = styled.div`
   z-index: 90;
 `;
 export const Form = styled.form`
+  position: relative;
   background-color: white;
   padding: 25px 60px;
   width: 70%;
@@ -22,8 +23,8 @@ export const Form = styled.form`
   max-height: 800px;
   max-width: 800px;
   overflow: scroll;
-  top: 100px;
-  left: calc(50% - 200px);
+  // top: 100px;
+  // left: calc(50% - 200px);
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -126,6 +127,9 @@ export const FormHeader = styled.div`
   }
 `;
 export const CloseButton = styled.button`
+  position: absolute;
+  top: 30px;
+  right: 30px;
   margin: 0; 
   padding: 0;
   border: none;
@@ -133,6 +137,7 @@ export const CloseButton = styled.button`
   height: 20px;
   background: white url("./img/icon-close.svg") center center no-repeat;
   background-size: 15px 15px;
+  cursor: pointer;
   
   &:hover {
     opacity: .6;

@@ -18,4 +18,4 @@ export default PropTypes.shape({
   createdAt: PropTypes.string,
   updatedAt: PropTypes.string,
   deletedAt: PropTypes.oneOf([PropTypes.string, PropTypes.null]),
-}).isRequired;
+});

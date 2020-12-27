@@ -8,6 +8,7 @@ import Header from '../../components/header/header';
 import issueProp from '../../types/issue.prop';
 import { IssueModel, toCamel } from '../../const';
 import moment from 'moment';
+import { toggleForm } from '../../store/action';
 
 const Container = styled.div`
   flex-grow: 1;
@@ -56,7 +57,6 @@ const Aside = styled.aside`
     text-align: center;
   }
 `;
-
 const InfoList = styled.ul`
   margin: 0;
   padding: 0;
@@ -91,9 +91,54 @@ const InfoList = styled.ul`
     color: black;
   }
 `;
+const IssueControls = styled.div`
+  margin-top: 20px;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 20px;
+`;
+const Button = styled.button`
+  margin: 0;
+  padding: 0;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+  padding: 5px;
+  padding-top: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 100ms ease-in, 
+              color 100ms ease-in, 
+              opacity 100ms ease-in, 
+              border 100ms ease-in;
+              
+  &:hover {
+    color: #f1f1f1;
+  }
+  
+  &:active {
+    opacity: .6;
+  }
+  
+  &.edit {
+    border-color: #2196f3;
+    
+    &:hover {
+      background-color: #2196f3;
+    }
+  }
+  
+  &.delete {
+    border-color: #ff2f2f;
+    
+    &:hover {
+      background-color: #ff2f2f;
+    }
+  }
+`;
 
 // todo на странице Issue не хватает заказчика в разделе "О заявке"
-
 /**
  * Check if string is valid date.
  * @param string
@@ -121,13 +166,15 @@ const Issue = (props) => {
   const issueId = props.match.params.id;
   const issue = props.issues.find(_issue => _issue.id.toString() === issueId);
 
+  const { onEditClick } = props;
+
   const textRef = useRef(null);
 
   useEffect(() => {
     if (issue) {
       textRef.current.innerHTML = issue.description;
     }
-  }, [issue]);
+  }, [issue, props.issues]);
 
   return (
     <>
@@ -149,6 +196,10 @@ const Issue = (props) => {
                   <p className="value">{formatIssueValue(issue, key)}</p>
                 </li>)}
             </InfoList>
+            <IssueControls>
+              <Button className="edit" onClick={onEditClick(issue)}>Изменить</Button>
+              <Button className="delete">Удалить</Button>
+            </IssueControls>
           </Aside>
         </Container>
     </>
@@ -158,11 +209,18 @@ const Issue = (props) => {
 Issue.propTypes = {
   issues: PropTypes.arrayOf(issueProp).isRequired,
   match: PropTypes.any.isRequired,
+  onEditClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   issues: getIssues(state),
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  onEditClick (updatingIssue) {
+    return () => dispatch(toggleForm(updatingIssue));
+  },
+});
+
 export { Issue };
-export default connect(mapStateToProps, null)(Issue);
+export default connect(mapStateToProps, mapDispatchToProps)(Issue);

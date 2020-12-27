@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 import { toggleForm as toggleFormAction, toggleLoading as toggleLoadingAction } from '../../store/action';
 import { generateIssue } from '../../mock/issue';
 import SunEditorComponent from '../sun-editor/sun-editor';
-import { postIssue as postIssueAction } from '../../store/api-action';
+import { postIssue as postIssueAction, updateIssue as updateIssueAction } from '../../store/api-action';
 import { getLoadingState } from '../../store/reducers/app-state/selectors';
 import { FormHeader, Form, Input, InputsList, InputWrapper, Label, Overlay, Select, Button, CloseButton } from './components';
 import { DEFAULT_TEXTEDIT_VALUE, SELECTS } from '../../const';
+import issueProp from '../../types/issue.prop';
 
 const initialData = {
   topic: generateIssue().topic,
@@ -19,26 +20,32 @@ const initialData = {
   description: DEFAULT_TEXTEDIT_VALUE,
 };
 
-const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
-  const [formData, setFormData] = useState(initialData);
+const AddForm = ({ updatingIssue, isLoading, updateIssue, postIssue, onCloseBtnClick, toggleLoading }) => {
+  const [formData, setFormData] = useState(updatingIssue || initialData);
 
   const editorRef = useRef(null);
 
   const onChange = (evt) => setFormData({ ...formData, [evt.target.name]: evt.target.value });
   const onSubmit = (evt) => {
     evt.preventDefault();
-    setFormData({ ...formData, description: editorRef.current.editor.getContents() });
+    const description = editorRef.current.editor.getContents();
 
     toggleLoading();
-    postIssue({ ...generateIssue(true), ...formData });
+    if (updatingIssue) {
+      updateIssue(updatingIssue.id, { ...updatingIssue, ...formData, description });
+      return;
+    }
+    postIssue({ ...generateIssue(true), ...formData, description });
   };
+
+  const buttonText = updatingIssue ? ` Обновить заявку` : `Создать заявку`;
 
   return (
     <Overlay>
       <Form onSubmit={onSubmit} onChange={onChange}>
+        <CloseButton onClick={onCloseBtnClick} />
         <FormHeader>
           <h2>Добавление заявки</h2>
-          <CloseButton onClick={onCloseBtnClick} />
         </FormHeader>
         <InputsList>
           <InputWrapper className="double">
@@ -62,7 +69,7 @@ const AddForm = ({ postIssue, onCloseBtnClick, isLoading, toggleLoading }) => {
           <p className="editor-label">Опиcание проблемы</p>
           <SunEditorComponent _ref={editorRef} contents={formData.description} />
         </InputWrapper>
-        <Button type="submit" disabled={isLoading}>{isLoading ? `Сохранение...` : `Добавить заявку`}</Button>
+        <Button type="submit" disabled={isLoading}>{isLoading ? `Сохранение...` : buttonText}</Button>
       </Form>
     </Overlay>
   );
@@ -73,14 +80,20 @@ AddForm.propTypes = {
   onCloseBtnClick: PropTypes.func.isRequired,
   toggleLoading: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  updatingIssue: issueProp,
+  updateIssue: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isLoading: getLoadingState(state),
+  updatingIssue: state.STATE.updatingIssue,
 });
 const mapDispatchToProps = (dispatch) => ({
   postIssue (issue) {
     dispatch(postIssueAction(issue));
+  },
+  updateIssue (id, updatedIssue) {
+    dispatch(updateIssueAction(id, updatedIssue));
   },
   onCloseBtnClick () {
     dispatch(toggleFormAction());

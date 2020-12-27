@@ -15,6 +15,11 @@ const appStore = (state = initialState, action) => {
     case ActionType.LOAD_ISSUES: {
       return { ...state, issues: action.payload };
     }
+    case ActionType.UPDATE_ISSUE: {
+      let issues = state.issues.slice();
+      issues = issues.map(issue => issue.id === action.payload.id ? action.payload : issue);
+      return { ...state, issues };
+    }
     default:
       return state;
   }
