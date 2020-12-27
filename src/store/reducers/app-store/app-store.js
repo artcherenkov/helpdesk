@@ -20,6 +20,11 @@ const appStore = (state = initialState, action) => {
       issues = issues.map(issue => issue.id === action.payload.id ? action.payload : issue);
       return { ...state, issues };
     }
+    case ActionType.DELETE_ISSUE: {
+      let issues = state.issues.slice();
+      issues = issues.filter(issue => issue._id !== action.payload);
+      return { ...state, issues };
+    }
     default:
       return state;
   }

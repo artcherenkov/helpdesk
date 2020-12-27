@@ -8,7 +8,9 @@ import Header from '../../components/header/header';
 import issueProp from '../../types/issue.prop';
 import { IssueModel, toCamel } from '../../const';
 import moment from 'moment';
-import { toggleForm } from '../../store/action';
+import { toggleForm, toggleLoading } from '../../store/action';
+import { deleteIssue } from '../../store/api-action';
+import { getLoadingState } from '../../store/reducers/app-state/selectors';
 
 const Container = styled.div`
   flex-grow: 1;
@@ -166,42 +168,42 @@ const Issue = (props) => {
   const issueId = props.match.params.id;
   const issue = props.issues.find(_issue => _issue.id.toString() === issueId);
 
-  const { onEditClick } = props;
+  const { isLoading, onEditClick, onDeleteClick } = props;
 
   const textRef = useRef(null);
 
   useEffect(() => {
-    if (issue) {
+    if (!isLoading && issue) {
       textRef.current.innerHTML = issue.description;
     }
-  }, [issue, props.issues]);
+  }, [isLoading, issue, props.issues]);
 
   return (
     <>
-      <Header />
-        <Container>
-          <Main>
-            <h1>Просмотр заявки</h1>
-            <IssueSection className="issue">
-              <h2 className="issue__topic">{issue && issue.topic}</h2>
-              <p className="issue__description-header">Описание проблемы</p>
-              <div className="issue__description" ref={textRef} />
-            </IssueSection>
-          </Main>
-          <Aside>
-            <InfoList>
-              {issue && Object.keys(IssueModel).map(key =>
-                <li key={`item-${key}`}>
-                  <p className="key">{IssueModel[key]}</p>
-                  <p className="value">{formatIssueValue(issue, key)}</p>
-                </li>)}
-            </InfoList>
-            <IssueControls>
-              <Button className="edit" onClick={onEditClick(issue)}>Изменить</Button>
-              <Button className="delete">Удалить</Button>
-            </IssueControls>
-          </Aside>
-        </Container>
+      <Header/>
+      {!isLoading && <Container>
+        <Main>
+          <h1>Просмотр заявки</h1>
+          <IssueSection className="issue">
+            <h2 className="issue__topic">{issue && issue.topic}</h2>
+            <p className="issue__description-header">Описание проблемы</p>
+            <div className="issue__description" ref={textRef}/>
+          </IssueSection>
+        </Main>
+        <Aside>
+          <InfoList>
+            {issue && Object.keys(IssueModel).map(key =>
+              <li key={`item-${key}`}>
+                <p className="key">{IssueModel[key]}</p>
+                <p className="value">{formatIssueValue(issue, key)}</p>
+              </li>)}
+          </InfoList>
+          <IssueControls>
+            <Button className="edit" onClick={onEditClick(issue)}>Изменить</Button>
+            <Button className="delete" onClick={onDeleteClick(issue._id)}>Удалить</Button>
+          </IssueControls>
+        </Aside>
+      </Container>}
     </>
   );
 };
@@ -210,15 +212,24 @@ Issue.propTypes = {
   issues: PropTypes.arrayOf(issueProp).isRequired,
   match: PropTypes.any.isRequired,
   onEditClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   issues: getIssues(state),
+  isLoading: getLoadingState(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onEditClick (updatingIssue) {
     return () => dispatch(toggleForm(updatingIssue));
+  },
+  onDeleteClick (id) {
+    return () => {
+      dispatch(toggleLoading());
+      dispatch(deleteIssue(id));
+    };
   },
 });
 
