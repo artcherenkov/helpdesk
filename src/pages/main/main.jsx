@@ -12,6 +12,8 @@ const Container = styled.div`
   padding: 0 10px;
 `;
 
+// todo добавить заглушку на время загрузки и другую - если нет подходящих заявок (или вообще нет)
+
 const Main = () => {
   return (
     <Container>

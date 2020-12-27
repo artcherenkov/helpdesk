@@ -47,10 +47,11 @@ const Table = ({ issues, isLoading, filters, organizations }) => {
             </tr>
           </thead>
           <tbody className="table__body">
-            {isLoading && <tr><td>Загрузка...</td></tr>}
-            {filteredIssues && filteredIssues.map((issue, i) => (
-              <Row key={`issue-${i}`} issue={issue} organizationId={getOrganizationId(organizations, issue)} />
-            ))}
+            {isLoading
+              ? <tr><td>Загрузка...</td></tr>
+              : filteredIssues && filteredIssues.map((issue, i) => (
+                <Row key={`issue-${i}`} issue={issue} organizationId={getOrganizationId(organizations, issue)} />
+              ))}
           </tbody>
         </table>
       </div>
