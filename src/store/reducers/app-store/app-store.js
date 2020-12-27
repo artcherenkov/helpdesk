@@ -2,6 +2,7 @@ import { ActionType } from '../../action';
 
 const initialState = {
   issues: [],
+  organizations: [],
   textEditorData: ``,
 };
 
@@ -14,6 +15,9 @@ const appStore = (state = initialState, action) => {
     }
     case ActionType.LOAD_ISSUES: {
       return { ...state, issues: action.payload };
+    }
+    case ActionType.LOAD_ORGANIZATIONS: {
+      return { ...state, organizations: action.payload };
     }
     case ActionType.UPDATE_ISSUE: {
       let issues = state.issues.slice();

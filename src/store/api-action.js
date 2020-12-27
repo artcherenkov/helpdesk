@@ -1,4 +1,13 @@
-import { addIssue, loadIssues, toggleForm, toggleLoading, updateIssue as updateIssueSyncAction } from './action';
+import {
+  addIssue,
+  loadIssues,
+  toggleForm,
+  toggleLoading,
+  updateIssue as updateIssueSyncAction,
+  deleteIssue as deleteIssueSyncAction,
+  loadOrganizations,
+} from './action';
+import browserHistory from '../browser-history';
 
 export const fetchIssues = () => (dispatch, _getState, api) => (
   api.get(`/issues`)
@@ -21,4 +30,17 @@ export const updateIssue = (id, updatedIssue) => (dispatch, _getState, api) => (
     .then(() => dispatch(toggleForm()))
     .catch((err) => console.log(`error: `, err))
     .finally(() => dispatch(toggleLoading()))
+);
+
+export const deleteIssue = (id) => (dispatch, _getState, api) => (
+  api.delete(`/issues/${id}`)
+    .then(() => dispatch(deleteIssueSyncAction(id)))
+    .then(() => browserHistory.push(`/`))
+    .catch((err) => console.log(`error: `, err))
+    .finally(() => dispatch(toggleLoading()))
+);
+
+export const fetchOrganizations = () => (dispatch, _getState, api) => (
+  api.get(`/organizations`)
+    .then(({ data }) => dispatch(loadOrganizations(data)))
 );

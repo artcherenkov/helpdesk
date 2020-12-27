@@ -10,6 +10,8 @@ import { getLoadingState } from '../../store/reducers/app-state/selectors';
 import { FormHeader, Form, Input, InputsList, InputWrapper, Label, Overlay, Select, Button, CloseButton } from './components';
 import { DEFAULT_TEXTEDIT_VALUE, SELECTS } from '../../const';
 import issueProp from '../../types/issue.prop';
+import { getOrganizations } from '../../store/reducers/app-store/selectors';
+import { getRandomArrayItem } from '../../utils/common';
 
 const initialData = {
   topic: generateIssue().topic,
@@ -20,9 +22,8 @@ const initialData = {
   description: DEFAULT_TEXTEDIT_VALUE,
 };
 
-const AddForm = ({ updatingIssue, isLoading, updateIssue, postIssue, onCloseBtnClick, toggleLoading }) => {
+const AddForm = ({ organizations, updatingIssue, isLoading, updateIssue, postIssue, onCloseBtnClick, toggleLoading }) => {
   const [formData, setFormData] = useState(updatingIssue || initialData);
-
   const editorRef = useRef(null);
 
   const onChange = (evt) => setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -35,7 +36,7 @@ const AddForm = ({ updatingIssue, isLoading, updateIssue, postIssue, onCloseBtnC
       updateIssue(updatingIssue.id, { ...updatingIssue, ...formData, description });
       return;
     }
-    postIssue({ ...generateIssue(true), ...formData, description });
+    postIssue({ ...generateIssue(true), organizationName: getRandomArrayItem(organizations).name, ...formData, description });
   };
 
   const buttonText = updatingIssue ? ` Обновить заявку` : `Создать заявку`;
@@ -82,11 +83,14 @@ AddForm.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   updatingIssue: issueProp,
   updateIssue: PropTypes.func.isRequired,
+  organizations: PropTypes.array.isRequired,
 };
 
+// todo добавить селектор для updatingIssue
 const mapStateToProps = state => ({
   isLoading: getLoadingState(state),
   updatingIssue: state.STATE.updatingIssue,
+  organizations: getOrganizations(state),
 });
 const mapDispatchToProps = (dispatch) => ({
   postIssue (issue) {
